@@ -93,16 +93,6 @@ button:disabled{opacity:0.35;cursor:not-allowed;box-shadow:none;}
 .combo-num.done-right{background:#17a85b;color:#fff;}
 .combo-num.done-wrong{background:#e53946;color:#fff;}
 
-/* ===== 完全隐藏管理按钮 ===== */
-body[data-embedded="true"] #importBtn,
-body[data-embedded="true"] #exportBtn,
-body[data-embedded="true"] #saveHtmlBtn{
-  display:none !important;
-}
-body[data-embedded="true"] #fileInput {
-  display:none !important;
-}
-
 /* ============================================================
    ★ 全屏沉浸式适配电脑屏幕
    ============================================================ */
@@ -173,15 +163,54 @@ body.is-fullscreen .answer-card-title { font-size: 18px; }
         display: none !important;
       }
     }
-  </style></head>
-<body data-embedded="true">
+  </style><style type="text/css">.qa-sdk-wrapper {
+  position: fixed;
+  width: 400px;
+  right: -600px;
+  max-height: 530px;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s ease-in-out;
+  background: #fff;
+}
+
+.qa-sdk-close-btn {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.qa-sdk-close-btn:hover {
+  border-radius: 50%;
+  background-color: #d5d9df;
+}
+
+#qa-sdk-iframe {
+  width: 400px;
+}
+
+@media (min-width: 1024px) and (max-width: 1366px) {
+  .qa-sdk-wrapper{
+    width: 356px;
+  }
+  #qa-sdk-iframe {
+    width: 356px;
+  }
+}
+</style></head>
+<body>
 
 <div class="container">
   <div class="header-card">
     <div class="title">🧹 嘻唰唰电脑版</div>
     
     <div class="stat-row">
-      <div>当前题量：<span id="totalCnt">400</span></div>
+      <div>当前题量：<span id="totalCnt">44</span></div>
       <div>✅答对：<span id="rightCnt">0</span></div>
       <div>❌答错：<span id="wrongCnt">0</span></div>
       <div>📝已作答：<span id="answeredCnt">0</span></div>
@@ -190,10 +219,12 @@ body.is-fullscreen .answer-card-title { font-size: 18px; }
     </div>
 
     <div class="mode-btn-group" id="typeGroup">
-      <button class="mode-btn active" data-type="all">混合练习</button>
+      <button class="mode-btn" data-type="all">混合练习</button>
       <button class="mode-btn" data-type="single">单项选择题</button>
       <button class="mode-btn" data-type="multiple">多项选择题</button>
       <button class="mode-btn" data-type="truefalse">判断题</button>
+      <button class="mode-btn" data-type="single_exception">单选非长题</button>
+      <button class="mode-btn active" data-type="judge_wrong">判断为错</button>
 
       <div class="combo-tab-wrap" id="comboTabWrap">
         <button class="combo-tab-btn" id="comboTabBtn">
@@ -224,12 +255,12 @@ body.is-fullscreen .answer-card-title { font-size: 18px; }
   <div class="quiz-card-wrap" id="quizWrap">
   <div class="quiz-card">
     <div class="q-meta">
-      <div class="q-no">第1题 (no:1)</div>
-      <div class="q-type">【单选题】</div>
+      <div class="q-no">第16题 (no:330)</div>
+      <div class="q-type">【判断题】</div>
     </div>
-    <div class="question-text">在网络安全职业道德体系中，职业道德“基本要求”的核心在于调和“保护社会公共利益”“恪守对雇主的忠诚”与“维护行业专业形象”之间的潜在冲突。某金融科技公司安全管理员发现雇主在未充分告知用户的情况下将包含身份证和银行卡信息的数据库共享给第三方征信机构“联合建模”。公司法务认为该行为在已签署的数据共享协议下“技术合规”。根据国际公认的职业道德准则及我国相关法律精神，最准确的论断是（）。</div>
+    <div class="question-text">判断题 某安全培训主管在设计“渗透测试实操”考核方案时，给理论笔试和实操上机各分配了 50% 的权重。网络安全操作技能的考核评定标准中，理论考试（笔试）的权重应等同于实操考试（动手操作）的权重，因为理论知识掌握水平与实际操作能力之间是简单的线性正相关关系。（）</div>
     <div class="opt-container">
-  <div class="option-item" data-idx="0" data-val="A">A.法务部门出具的数据共享合规意见代表了企业内部对法律风险的权威判断，安全管理员在评估该意见的合理性后，仍应以法务结论作为行动的主要依据；若后续监管调查认定违规，法务部门将承担主要责任，安全管理员的职业风险相对较低</div><div class="option-item" data-idx="1" data-val="B">B.职业道德中的“恪守保密义务”属于相对义务，在涉及重大公共安全风险且雇主拒绝配合修复时，可向特定监管机构进行最小必要范围的信息披露——但应先通过内部合规渠道逐级反映并给予雇主合理的纠正期限</div><div class="option-item" data-idx="2" data-val="C">C.“诚实守信”不仅要求不伪造日志数据，也要求安全管理员对发现的可疑数据共享行为予以关注，但该关注应优先通过内部非正式沟通向直接上级提示，并在业务项目结束后补充书面记录，以避免干扰正常业务进程——这种做法在行业实践中被视为兼顾忠诚与审慎的常见方式</div><div class="option-item" data-idx="3" data-val="D">D.依据网络安全岗位的常规职责划分，个人信息保护的合规性判定通常归属于数据保护官和法务部门，安全管理员的主要职责聚焦于系统安全防护；若安全管理员对共享行为有疑虑，可建议法务部门重新评估，但在法务部门未明确回应前，可暂按现行流程推进，后续再根据评估结果调整操作</div></div><div class="result-tip" id="resultTip"></div><div class="btn-row"><button id="prevBtn" disabled="">上一题</button><button id="nextBtn">下一题</button><button id="resetBtn" class="reset-btn">清空全部答题记录</button></div></div></div>
+  <div class="option-item" data-idx="0" data-val="正确">正确</div><div class="option-item" data-idx="1" data-val="错误">错误</div></div><div class="result-tip" id="resultTip"></div><div class="btn-row"><button id="prevBtn">上一题</button><button id="nextBtn">下一题</button><button id="resetBtn" class="reset-btn">清空全部答题记录</button></div></div></div>
 
   <div class="answer-card-wrap" id="answerCardWrap">
     <div class="answer-card-head" id="answerCardHead">
@@ -237,7 +268,7 @@ body.is-fullscreen .answer-card-title { font-size: 18px; }
       <div class="fold-icon" id="foldIcon">▼</div>
     </div>
     <div class="inner-pad">
-      <div class="answer-grid" id="answerGrid"><div class="num-block unanswered">1</div><div class="num-block unanswered">2</div><div class="num-block unanswered">3</div><div class="num-block unanswered">4</div><div class="num-block unanswered">5</div><div class="num-block unanswered">6</div><div class="num-block unanswered">7</div><div class="num-block unanswered">8</div><div class="num-block unanswered">9</div><div class="num-block unanswered">10</div><div class="num-block unanswered">11</div><div class="num-block unanswered">12</div><div class="num-block unanswered">13</div><div class="num-block unanswered">14</div><div class="num-block unanswered">15</div><div class="num-block unanswered">16</div><div class="num-block unanswered">17</div><div class="num-block unanswered">18</div><div class="num-block unanswered">19</div><div class="num-block unanswered">20</div><div class="num-block unanswered">21</div><div class="num-block unanswered">22</div><div class="num-block unanswered">23</div><div class="num-block unanswered">24</div><div class="num-block unanswered">25</div><div class="num-block unanswered">26</div><div class="num-block unanswered">27</div><div class="num-block unanswered">28</div><div class="num-block unanswered">29</div><div class="num-block unanswered">30</div><div class="num-block unanswered">31</div><div class="num-block unanswered">32</div><div class="num-block unanswered">33</div><div class="num-block unanswered">34</div><div class="num-block unanswered">35</div><div class="num-block unanswered">36</div><div class="num-block unanswered">37</div><div class="num-block unanswered">38</div><div class="num-block unanswered">39</div><div class="num-block unanswered">40</div><div class="num-block unanswered">41</div><div class="num-block unanswered">42</div><div class="num-block unanswered">43</div><div class="num-block unanswered">44</div><div class="num-block unanswered">45</div><div class="num-block unanswered">46</div><div class="num-block unanswered">47</div><div class="num-block unanswered">48</div><div class="num-block unanswered">49</div><div class="num-block unanswered">50</div><div class="num-block unanswered">51</div><div class="num-block unanswered">52</div><div class="num-block unanswered">53</div><div class="num-block unanswered">54</div><div class="num-block unanswered">55</div><div class="num-block unanswered">56</div><div class="num-block unanswered">57</div><div class="num-block unanswered">58</div><div class="num-block unanswered">59</div><div class="num-block unanswered">60</div><div class="num-block unanswered">61</div><div class="num-block unanswered">62</div><div class="num-block unanswered">63</div><div class="num-block unanswered">64</div><div class="num-block unanswered">65</div><div class="num-block unanswered">66</div><div class="num-block unanswered">67</div><div class="num-block unanswered">68</div><div class="num-block unanswered">69</div><div class="num-block unanswered">70</div><div class="num-block unanswered">71</div><div class="num-block unanswered">72</div><div class="num-block unanswered">73</div><div class="num-block unanswered">74</div><div class="num-block unanswered">75</div><div class="num-block unanswered">76</div><div class="num-block unanswered">77</div><div class="num-block unanswered">78</div><div class="num-block unanswered">79</div><div class="num-block unanswered">80</div><div class="num-block unanswered">81</div><div class="num-block unanswered">82</div><div class="num-block unanswered">83</div><div class="num-block unanswered">84</div><div class="num-block unanswered">85</div><div class="num-block unanswered">86</div><div class="num-block unanswered">87</div><div class="num-block unanswered">88</div><div class="num-block unanswered">89</div><div class="num-block unanswered">90</div><div class="num-block unanswered">91</div><div class="num-block unanswered">92</div><div class="num-block unanswered">93</div><div class="num-block unanswered">94</div><div class="num-block unanswered">95</div><div class="num-block unanswered">96</div><div class="num-block unanswered">97</div><div class="num-block unanswered">98</div><div class="num-block unanswered">99</div><div class="num-block unanswered">100</div><div class="num-block unanswered">101</div><div class="num-block unanswered">102</div><div class="num-block unanswered">103</div><div class="num-block unanswered">104</div><div class="num-block unanswered">105</div><div class="num-block unanswered">106</div><div class="num-block unanswered">107</div><div class="num-block unanswered">108</div><div class="num-block unanswered">109</div><div class="num-block unanswered">110</div><div class="num-block unanswered">111</div><div class="num-block unanswered">112</div><div class="num-block unanswered">113</div><div class="num-block unanswered">114</div><div class="num-block unanswered">115</div><div class="num-block unanswered">116</div><div class="num-block unanswered">117</div><div class="num-block unanswered">118</div><div class="num-block unanswered">119</div><div class="num-block unanswered">120</div><div class="num-block unanswered">121</div><div class="num-block unanswered">122</div><div class="num-block unanswered">123</div><div class="num-block unanswered">124</div><div class="num-block unanswered">125</div><div class="num-block unanswered">126</div><div class="num-block unanswered">127</div><div class="num-block unanswered">128</div><div class="num-block unanswered">129</div><div class="num-block unanswered">130</div><div class="num-block unanswered">131</div><div class="num-block unanswered">132</div><div class="num-block unanswered">133</div><div class="num-block unanswered">134</div><div class="num-block unanswered">135</div><div class="num-block unanswered">136</div><div class="num-block unanswered">137</div><div class="num-block unanswered">138</div><div class="num-block unanswered">139</div><div class="num-block unanswered">140</div><div class="num-block unanswered">141</div><div class="num-block unanswered">142</div><div class="num-block unanswered">143</div><div class="num-block unanswered">144</div><div class="num-block unanswered">145</div><div class="num-block unanswered">146</div><div class="num-block unanswered">147</div><div class="num-block unanswered">148</div><div class="num-block unanswered">149</div><div class="num-block unanswered">150</div><div class="num-block unanswered">151</div><div class="num-block unanswered">152</div><div class="num-block unanswered">153</div><div class="num-block unanswered">154</div><div class="num-block unanswered">155</div><div class="num-block unanswered">156</div><div class="num-block unanswered">157</div><div class="num-block unanswered">158</div><div class="num-block unanswered">159</div><div class="num-block unanswered">160</div><div class="num-block unanswered">161</div><div class="num-block unanswered">162</div><div class="num-block unanswered">163</div><div class="num-block unanswered">164</div><div class="num-block unanswered">165</div><div class="num-block unanswered">166</div><div class="num-block unanswered">167</div><div class="num-block unanswered">168</div><div class="num-block unanswered">169</div><div class="num-block unanswered">170</div><div class="num-block unanswered">171</div><div class="num-block unanswered">172</div><div class="num-block unanswered">173</div><div class="num-block unanswered">174</div><div class="num-block unanswered">175</div><div class="num-block unanswered">176</div><div class="num-block unanswered">177</div><div class="num-block unanswered">178</div><div class="num-block unanswered">179</div><div class="num-block unanswered">180</div><div class="num-block unanswered">181</div><div class="num-block unanswered">182</div><div class="num-block unanswered">183</div><div class="num-block unanswered">184</div><div class="num-block unanswered">185</div><div class="num-block unanswered">186</div><div class="num-block unanswered">187</div><div class="num-block unanswered">188</div><div class="num-block unanswered">189</div><div class="num-block unanswered">190</div><div class="num-block unanswered">191</div><div class="num-block unanswered">192</div><div class="num-block unanswered">193</div><div class="num-block unanswered">194</div><div class="num-block unanswered">195</div><div class="num-block unanswered">196</div><div class="num-block unanswered">197</div><div class="num-block unanswered">198</div><div class="num-block unanswered">199</div><div class="num-block unanswered">200</div><div class="num-block unanswered">201</div><div class="num-block unanswered">202</div><div class="num-block unanswered">203</div><div class="num-block unanswered">204</div><div class="num-block unanswered">205</div><div class="num-block unanswered">206</div><div class="num-block unanswered">207</div><div class="num-block unanswered">208</div><div class="num-block unanswered">209</div><div class="num-block unanswered">210</div><div class="num-block unanswered">211</div><div class="num-block unanswered">212</div><div class="num-block unanswered">213</div><div class="num-block unanswered">214</div><div class="num-block unanswered">215</div><div class="num-block unanswered">216</div><div class="num-block unanswered">217</div><div class="num-block unanswered">218</div><div class="num-block unanswered">219</div><div class="num-block unanswered">220</div><div class="num-block unanswered">221</div><div class="num-block unanswered">222</div><div class="num-block unanswered">223</div><div class="num-block unanswered">224</div><div class="num-block unanswered">225</div><div class="num-block unanswered">226</div><div class="num-block unanswered">227</div><div class="num-block unanswered">228</div><div class="num-block unanswered">229</div><div class="num-block unanswered">230</div><div class="num-block unanswered">231</div><div class="num-block unanswered">232</div><div class="num-block unanswered">233</div><div class="num-block unanswered">234</div><div class="num-block unanswered">235</div><div class="num-block unanswered">236</div><div class="num-block unanswered">237</div><div class="num-block unanswered">238</div><div class="num-block unanswered">239</div><div class="num-block unanswered">240</div><div class="num-block unanswered">241</div><div class="num-block unanswered">242</div><div class="num-block unanswered">243</div><div class="num-block unanswered">244</div><div class="num-block unanswered">245</div><div class="num-block unanswered">246</div><div class="num-block unanswered">247</div><div class="num-block unanswered">248</div><div class="num-block unanswered">249</div><div class="num-block unanswered">250</div><div class="num-block unanswered">251</div><div class="num-block unanswered">252</div><div class="num-block unanswered">253</div><div class="num-block unanswered">254</div><div class="num-block unanswered">255</div><div class="num-block unanswered">256</div><div class="num-block unanswered">257</div><div class="num-block unanswered">258</div><div class="num-block unanswered">259</div><div class="num-block unanswered">260</div><div class="num-block unanswered">261</div><div class="num-block unanswered">262</div><div class="num-block unanswered">263</div><div class="num-block unanswered">264</div><div class="num-block unanswered">265</div><div class="num-block unanswered">266</div><div class="num-block unanswered">267</div><div class="num-block unanswered">268</div><div class="num-block unanswered">269</div><div class="num-block unanswered">270</div><div class="num-block unanswered">271</div><div class="num-block unanswered">272</div><div class="num-block unanswered">273</div><div class="num-block unanswered">274</div><div class="num-block unanswered">275</div><div class="num-block unanswered">276</div><div class="num-block unanswered">277</div><div class="num-block unanswered">278</div><div class="num-block unanswered">279</div><div class="num-block unanswered">280</div><div class="num-block unanswered">281</div><div class="num-block unanswered">282</div><div class="num-block unanswered">283</div><div class="num-block unanswered">284</div><div class="num-block unanswered">285</div><div class="num-block unanswered">286</div><div class="num-block unanswered">287</div><div class="num-block unanswered">288</div><div class="num-block unanswered">289</div><div class="num-block unanswered">290</div><div class="num-block unanswered">291</div><div class="num-block unanswered">292</div><div class="num-block unanswered">293</div><div class="num-block unanswered">294</div><div class="num-block unanswered">295</div><div class="num-block unanswered">296</div><div class="num-block unanswered">297</div><div class="num-block unanswered">298</div><div class="num-block unanswered">299</div><div class="num-block unanswered">300</div><div class="num-block unanswered">301</div><div class="num-block unanswered">302</div><div class="num-block unanswered">303</div><div class="num-block unanswered">304</div><div class="num-block unanswered">305</div><div class="num-block unanswered">306</div><div class="num-block unanswered">307</div><div class="num-block unanswered">308</div><div class="num-block unanswered">309</div><div class="num-block unanswered">310</div><div class="num-block unanswered">311</div><div class="num-block unanswered">312</div><div class="num-block unanswered">313</div><div class="num-block unanswered">314</div><div class="num-block unanswered">315</div><div class="num-block unanswered">316</div><div class="num-block unanswered">317</div><div class="num-block unanswered">318</div><div class="num-block unanswered">319</div><div class="num-block unanswered">320</div><div class="num-block unanswered">321</div><div class="num-block unanswered">322</div><div class="num-block unanswered">323</div><div class="num-block unanswered">324</div><div class="num-block unanswered">325</div><div class="num-block unanswered">326</div><div class="num-block unanswered">327</div><div class="num-block unanswered">328</div><div class="num-block unanswered">329</div><div class="num-block unanswered">330</div><div class="num-block unanswered">331</div><div class="num-block unanswered">332</div><div class="num-block unanswered">333</div><div class="num-block unanswered">334</div><div class="num-block unanswered">335</div><div class="num-block unanswered">336</div><div class="num-block unanswered">337</div><div class="num-block unanswered">338</div><div class="num-block unanswered">339</div><div class="num-block unanswered">340</div><div class="num-block unanswered">341</div><div class="num-block unanswered">342</div><div class="num-block unanswered">343</div><div class="num-block unanswered">344</div><div class="num-block unanswered">345</div><div class="num-block unanswered">346</div><div class="num-block unanswered">347</div><div class="num-block unanswered">348</div><div class="num-block unanswered">349</div><div class="num-block unanswered">350</div><div class="num-block unanswered">351</div><div class="num-block unanswered">352</div><div class="num-block unanswered">353</div><div class="num-block unanswered">354</div><div class="num-block unanswered">355</div><div class="num-block unanswered">356</div><div class="num-block unanswered">357</div><div class="num-block unanswered">358</div><div class="num-block unanswered">359</div><div class="num-block unanswered">360</div><div class="num-block unanswered">361</div><div class="num-block unanswered">362</div><div class="num-block unanswered">363</div><div class="num-block unanswered">364</div><div class="num-block unanswered">365</div><div class="num-block unanswered">366</div><div class="num-block unanswered">367</div><div class="num-block unanswered">368</div><div class="num-block unanswered">369</div><div class="num-block unanswered">370</div><div class="num-block unanswered">371</div><div class="num-block unanswered">372</div><div class="num-block unanswered">373</div><div class="num-block unanswered">374</div><div class="num-block unanswered">375</div><div class="num-block unanswered">376</div><div class="num-block unanswered">377</div><div class="num-block unanswered">378</div><div class="num-block unanswered">379</div><div class="num-block unanswered">380</div><div class="num-block unanswered">381</div><div class="num-block unanswered">382</div><div class="num-block unanswered">383</div><div class="num-block unanswered">384</div><div class="num-block unanswered">385</div><div class="num-block unanswered">386</div><div class="num-block unanswered">387</div><div class="num-block unanswered">388</div><div class="num-block unanswered">389</div><div class="num-block unanswered">390</div><div class="num-block unanswered">391</div><div class="num-block unanswered">392</div><div class="num-block unanswered">393</div><div class="num-block unanswered">394</div><div class="num-block unanswered">395</div><div class="num-block unanswered">396</div><div class="num-block unanswered">397</div><div class="num-block unanswered">398</div><div class="num-block unanswered">399</div><div class="num-block unanswered">400</div></div>
+      <div class="answer-grid" id="answerGrid"><div class="num-block unanswered">302</div><div class="num-block unanswered">305</div><div class="num-block unanswered">306</div><div class="num-block unanswered">309</div><div class="num-block unanswered">311</div><div class="num-block unanswered">313</div><div class="num-block unanswered">315</div><div class="num-block unanswered">316</div><div class="num-block unanswered">318</div><div class="num-block unanswered">319</div><div class="num-block unanswered">321</div><div class="num-block unanswered">323</div><div class="num-block unanswered">324</div><div class="num-block unanswered">326</div><div class="num-block unanswered">327</div><div class="num-block unanswered">330</div><div class="num-block unanswered">331</div><div class="num-block unanswered">333</div><div class="num-block unanswered">336</div><div class="num-block unanswered">340</div><div class="num-block unanswered">341</div><div class="num-block unanswered">346</div><div class="num-block unanswered">347</div><div class="num-block unanswered">349</div><div class="num-block unanswered">353</div><div class="num-block unanswered">356</div><div class="num-block unanswered">358</div><div class="num-block unanswered">360</div><div class="num-block unanswered">362</div><div class="num-block unanswered">363</div><div class="num-block unanswered">366</div><div class="num-block unanswered">368</div><div class="num-block unanswered">369</div><div class="num-block unanswered">372</div><div class="num-block unanswered">374</div><div class="num-block unanswered">376</div><div class="num-block unanswered">379</div><div class="num-block unanswered">383</div><div class="num-block unanswered">385</div><div class="num-block unanswered">388</div><div class="num-block unanswered">390</div><div class="num-block unanswered">394</div><div class="num-block unanswered">396</div><div class="num-block unanswered">399</div></div>
     </div>
   </div>
 </div>
@@ -6085,14 +6116,6 @@ const comboPanelCombo = document.getElementById("comboPanelCombo");
 const comboPanelCount = document.getElementById("comboPanelCount");
 const comboNumGrid = document.getElementById("comboNumGrid");
 
-(function hideAdminButtonsIfEmbedded(){
-  if(document.body.getAttribute("data-embedded") === "true"){
-    const ids = ["importBtn", "exportBtn", "saveHtmlBtn"];
-    ids.forEach(id=>{ const el = document.getElementById(id); if(el) el.style.display = "none"; });
-    const fi = document.getElementById("fileInput"); if(fi) fi.style.display = "none";
-  }
-})();
-
 function isMultiType(t){ return t === "multi" || t === "multiple"; }
 function isSingleType(t){ return t === "single"; }
 function isJudgeType(t){ return t === "truefalse" || t === "judge"; }
@@ -6375,13 +6398,6 @@ saveHtmlBtn.onclick = async ()=>{
     const endIdx = htmlSource.indexOf(endTag, startIdx); if(endIdx === -1){ alert("保存失败：题库数据区格式异常。"); return; }
     let newHtml = htmlSource.substring(0, startIdx) + newQuestionScript + htmlSource.substring(endIdx + endTag.length);
 
-    newHtml = newHtml.replace(/<body(\s[^>]*)?>/, function(match, attrs){
-      attrs = attrs || "";
-      if(/data-embedded\s*=\s*"[^"]*"/.test(attrs)){ attrs = attrs.replace(/data-embedded\s*=\s*"[^"]*"/, 'data-embedded="true"'); }
-      else { attrs += ' data-embedded="true"'; }
-      return "<body" + attrs + ">";
-    });
-
     const blob = new Blob([newHtml], {type:"text/html;charset=utf-8"});
     const url = URL.createObjectURL(blob); const a = document.createElement("a");
     a.href = url; a.download = "嘻唰唰电脑版_自带题库.html";
@@ -6445,7 +6461,6 @@ document.addEventListener("keydown", function(e){
 /* ★ 鼠标滚轮切题（向下→下一题，向上→上一题，300ms 防抖） */
 let lastWheelTime = 0;
 document.addEventListener("wheel", function(e) {
-  // 只在题目区域（quizWrap）内滚动才触发切题，不影响查看其他区域
   if (!e.target.closest("#quizWrap")) return;
 
   const now = Date.now();
@@ -6453,11 +6468,9 @@ document.addEventListener("wheel", function(e) {
     lastWheelTime = now;
     
     if (e.deltaY > 0) {
-      // 向下滚动：下一题
       var nextBtn = document.getElementById("nextBtn");
       if (nextBtn && !nextBtn.disabled) nextBtn.click();
     } else if (e.deltaY < 0) {
-      // 向上滚动：上一题
       var prevBtn = document.getElementById("prevBtn");
       if (prevBtn && !prevBtn.disabled) prevBtn.click();
     }
@@ -6474,4 +6487,4 @@ updateStat();
 renderQuestion();
 </script>
 
-</body><div id="shadow-root-ai-zhishiku"></div><div id="ai-assist-root-bangs"></div><ai-assistant-floating-host data-ai-fab-host=""></ai-assistant-floating-host><ai-assistant-resource-drop-host data-ai-resource-drop-host=""></ai-assistant-resource-drop-host><div id="content-chat-popup-host" data-ai-assistant-element="content-chat-popup"></div><div id="content-continue-write-host"></div><div id="ai-assist-root-new"></div><div id="ai-assistant"></div></html>
+<div id="ai-assist-root-bangs"></div><ai-assistant-floating-host data-ai-fab-host=""></ai-assistant-floating-host><ai-assistant-resource-drop-host data-ai-resource-drop-host=""></ai-assistant-resource-drop-host><div id="content-chat-popup-host" data-ai-assistant-element="content-chat-popup"></div><div id="content-continue-write-host"></div><div id="ai-assistant"></div></body><div id="shadow-root-ai-zhishiku"></div><ai-assistant-floating-host data-ai-fab-host=""></ai-assistant-floating-host><ai-assistant-resource-drop-host data-ai-resource-drop-host=""></ai-assistant-resource-drop-host><div id="content-chat-popup-host" data-ai-assistant-element="content-chat-popup"></div><div id="content-continue-write-host"></div><div id="ai-assist-root-new"></div><div id="ai-assistant"></div></html>
