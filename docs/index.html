@@ -203,19 +203,19 @@ body.is-fullscreen .answer-card-title { font-size: 18px; }
   }
 }
 </style></head>
-<body>
+<body class="is-fullscreen">
 
 <div class="container">
   <div class="header-card">
     <div class="title">🧹 嘻唰唰电脑版</div>
     
     <div class="stat-row">
-      <div>当前题量：<span id="totalCnt">44</span></div>
+      <div>当前题量：<span id="totalCnt">100</span></div>
       <div>✅答对：<span id="rightCnt">0</span></div>
       <div>❌答错：<span id="wrongCnt">0</span></div>
       <div>📝已作答：<span id="answeredCnt">0</span></div>
       <div>📊正确率：<span id="rateTxt">0%</span></div>
-      <button class="fullscreen-btn" id="fullscreenBtn" type="button">⛶ 全屏</button>
+      <button class="fullscreen-btn" id="fullscreenBtn" type="button">⛶ 退出</button>
     </div>
 
     <div class="mode-btn-group" id="typeGroup">
@@ -224,7 +224,7 @@ body.is-fullscreen .answer-card-title { font-size: 18px; }
       <button class="mode-btn" data-type="multiple">多项选择题</button>
       <button class="mode-btn" data-type="truefalse">判断题</button>
       <button class="mode-btn" data-type="single_exception">单选非长题</button>
-      <button class="mode-btn active" data-type="judge_wrong">判断为错</button>
+      <button class="mode-btn" data-type="judge_wrong">判断为错</button>
 
       <div class="combo-tab-wrap" id="comboTabWrap">
         <button class="combo-tab-btn" id="comboTabBtn">
@@ -238,8 +238,11 @@ body.is-fullscreen .answer-card-title { font-size: 18px; }
     <div class="mode-btn-group">
       <button class="mode-btn active" data-mode="all">全部题目</button>
       <button class="mode-btn" data-mode="wrong">错题训练</button>
-      <button class="mode-btn active" data-shuffle="false">顺序刷题</button>
+      <button class="mode-btn" data-shuffle="false">顺序刷题</button>
       <button class="mode-btn" data-shuffle="true">随机刷题</button>
+      <button class="mode-btn" data-randomtype="single">单选随机</button>
+      <button class="mode-btn" data-randomtype="multiple">多选随机</button>
+      <button class="mode-btn active" data-randomtype="truefalse">判断随机</button>
       <button class="mode-btn import-export-btn" id="importBtn">📥 导入题库</button>
       <button class="mode-btn import-export-btn" id="exportBtn">📤 导出题库JSON</button>
       <button class="mode-btn save-html-btn" id="saveHtmlBtn">💾 保存为自带题库HTML</button>
@@ -255,10 +258,10 @@ body.is-fullscreen .answer-card-title { font-size: 18px; }
   <div class="quiz-card-wrap" id="quizWrap">
   <div class="quiz-card">
     <div class="q-meta">
-      <div class="q-no">第16题 (no:330)</div>
+      <div class="q-no">第10题 (no:359)</div>
       <div class="q-type">【判断题】</div>
     </div>
-    <div class="question-text">判断题 某安全培训主管在设计“渗透测试实操”考核方案时，给理论笔试和实操上机各分配了 50% 的权重。网络安全操作技能的考核评定标准中，理论考试（笔试）的权重应等同于实操考试（动手操作）的权重，因为理论知识掌握水平与实际操作能力之间是简单的线性正相关关系。（）</div>
+    <div class="question-text">判断题 培训教案的设计规范要求教案中各个教学模块应预留弹性时间以适应实际教学中的突发情况（如学员提问较多或实操环节耗时超出预期），且教案应在首次授课后根据实际教学效果进行复盘和修订。（）</div>
     <div class="opt-container">
   <div class="option-item" data-idx="0" data-val="正确">正确</div><div class="option-item" data-idx="1" data-val="错误">错误</div></div><div class="result-tip" id="resultTip"></div><div class="btn-row"><button id="prevBtn">上一题</button><button id="nextBtn">下一题</button><button id="resetBtn" class="reset-btn">清空全部答题记录</button></div></div></div>
 
@@ -268,7 +271,7 @@ body.is-fullscreen .answer-card-title { font-size: 18px; }
       <div class="fold-icon" id="foldIcon">▼</div>
     </div>
     <div class="inner-pad">
-      <div class="answer-grid" id="answerGrid"><div class="num-block unanswered">302</div><div class="num-block unanswered">305</div><div class="num-block unanswered">306</div><div class="num-block unanswered">309</div><div class="num-block unanswered">311</div><div class="num-block unanswered">313</div><div class="num-block unanswered">315</div><div class="num-block unanswered">316</div><div class="num-block unanswered">318</div><div class="num-block unanswered">319</div><div class="num-block unanswered">321</div><div class="num-block unanswered">323</div><div class="num-block unanswered">324</div><div class="num-block unanswered">326</div><div class="num-block unanswered">327</div><div class="num-block unanswered">330</div><div class="num-block unanswered">331</div><div class="num-block unanswered">333</div><div class="num-block unanswered">336</div><div class="num-block unanswered">340</div><div class="num-block unanswered">341</div><div class="num-block unanswered">346</div><div class="num-block unanswered">347</div><div class="num-block unanswered">349</div><div class="num-block unanswered">353</div><div class="num-block unanswered">356</div><div class="num-block unanswered">358</div><div class="num-block unanswered">360</div><div class="num-block unanswered">362</div><div class="num-block unanswered">363</div><div class="num-block unanswered">366</div><div class="num-block unanswered">368</div><div class="num-block unanswered">369</div><div class="num-block unanswered">372</div><div class="num-block unanswered">374</div><div class="num-block unanswered">376</div><div class="num-block unanswered">379</div><div class="num-block unanswered">383</div><div class="num-block unanswered">385</div><div class="num-block unanswered">388</div><div class="num-block unanswered">390</div><div class="num-block unanswered">394</div><div class="num-block unanswered">396</div><div class="num-block unanswered">399</div></div>
+      <div class="answer-grid" id="answerGrid"><div class="num-block unanswered">373</div><div class="num-block unanswered">318</div><div class="num-block unanswered">316</div><div class="num-block unanswered">317</div><div class="num-block unanswered">387</div><div class="num-block unanswered">385</div><div class="num-block unanswered">313</div><div class="num-block unanswered">303</div><div class="num-block unanswered">381</div><div class="num-block unanswered">359</div><div class="num-block unanswered">324</div><div class="num-block unanswered">377</div><div class="num-block unanswered">344</div><div class="num-block unanswered">363</div><div class="num-block unanswered">302</div><div class="num-block unanswered">341</div><div class="num-block unanswered">320</div><div class="num-block unanswered">389</div><div class="num-block unanswered">390</div><div class="num-block unanswered">378</div><div class="num-block unanswered">351</div><div class="num-block unanswered">376</div><div class="num-block unanswered">314</div><div class="num-block unanswered">360</div><div class="num-block unanswered">307</div><div class="num-block unanswered">346</div><div class="num-block unanswered">328</div><div class="num-block unanswered">398</div><div class="num-block unanswered">327</div><div class="num-block unanswered">383</div><div class="num-block unanswered">305</div><div class="num-block unanswered">358</div><div class="num-block unanswered">326</div><div class="num-block unanswered">361</div><div class="num-block unanswered">353</div><div class="num-block unanswered">355</div><div class="num-block unanswered">364</div><div class="num-block unanswered">338</div><div class="num-block unanswered">374</div><div class="num-block unanswered">349</div><div class="num-block unanswered">391</div><div class="num-block unanswered">350</div><div class="num-block unanswered">368</div><div class="num-block unanswered">304</div><div class="num-block unanswered">388</div><div class="num-block unanswered">371</div><div class="num-block unanswered">372</div><div class="num-block unanswered">335</div><div class="num-block unanswered">386</div><div class="num-block unanswered">366</div><div class="num-block unanswered">354</div><div class="num-block unanswered">352</div><div class="num-block unanswered">325</div><div class="num-block unanswered">356</div><div class="num-block unanswered">345</div><div class="num-block unanswered">367</div><div class="num-block unanswered">329</div><div class="num-block unanswered">347</div><div class="num-block unanswered">301</div><div class="num-block unanswered">311</div><div class="num-block unanswered">394</div><div class="num-block unanswered">315</div><div class="num-block unanswered">336</div><div class="num-block unanswered">362</div><div class="num-block unanswered">375</div><div class="num-block unanswered">331</div><div class="num-block unanswered">330</div><div class="num-block unanswered">309</div><div class="num-block unanswered">396</div><div class="num-block unanswered">399</div><div class="num-block unanswered">397</div><div class="num-block unanswered">392</div><div class="num-block unanswered">333</div><div class="num-block unanswered">337</div><div class="num-block unanswered">321</div><div class="num-block unanswered">323</div><div class="num-block unanswered">382</div><div class="num-block unanswered">393</div><div class="num-block unanswered">340</div><div class="num-block unanswered">306</div><div class="num-block unanswered">400</div><div class="num-block unanswered">395</div><div class="num-block unanswered">343</div><div class="num-block unanswered">308</div><div class="num-block unanswered">312</div><div class="num-block unanswered">332</div><div class="num-block unanswered">348</div><div class="num-block unanswered">357</div><div class="num-block unanswered">322</div><div class="num-block unanswered">342</div><div class="num-block unanswered">365</div><div class="num-block unanswered">384</div><div class="num-block unanswered">370</div><div class="num-block unanswered">380</div><div class="num-block unanswered">339</div><div class="num-block unanswered">379</div><div class="num-block unanswered">319</div><div class="num-block unanswered">310</div><div class="num-block unanswered">334</div><div class="num-block unanswered">369</div></div>
     </div>
   </div>
 </div>
@@ -6220,6 +6223,26 @@ document.querySelectorAll(".mode-btn[data-shuffle]").forEach(btn=>{
     document.querySelectorAll(".mode-btn[data-shuffle]").forEach(b=>b.classList.remove("active"));
     this.classList.add("active");
     shuffleMode = this.dataset.shuffle === "true";
+    buildActiveQuizList(); updateStat(); renderQuestion();
+  };
+});
+
+/* ===== 单选随机 / 多选随机 / 判断随机 ===== */
+document.querySelectorAll(".mode-btn[data-randomtype]").forEach(btn=>{
+  btn.onclick = function(){
+    if(isAnswering) return;
+    document.querySelectorAll(".mode-btn[data-randomtype]").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".mode-btn[data-type]").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".mode-btn[data-shuffle]").forEach(b=>b.classList.remove("active"));
+    comboTabBtn.classList.remove("active");
+    comboPanel.classList.remove("show");
+    this.classList.add("active");
+    var rt = this.dataset.randomtype;
+    if(rt === "single"){ typeFilter = "single"; }
+    else if(rt === "multiple"){ typeFilter = "multiple"; }
+    else if(rt === "truefalse"){ typeFilter = "truefalse"; }
+    quizMode = "all";
+    shuffleMode = true;
     buildActiveQuizList(); updateStat(); renderQuestion();
   };
 });
