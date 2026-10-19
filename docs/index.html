@@ -1,115 +1,122 @@
 <!DOCTYPE html>
 <html lang="zh-CN"><head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>嘻唰唰电脑版</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0b101c">
+<title>嘻唰唰</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;}
-html,body{height:100vh;overflow:hidden;}
-body{background:#0b101c;background-image:radial-gradient(circle at 10% 20%,rgba(0,140,255,0.12) 0%,transparent 45%),radial-gradient(circle at 85% 75%,rgba(0,220,180,0.08) 0%,transparent 45%);color:#e4edf7;padding:12px 16px;transition:padding 0.2s;}
-.container{max-width:1100px;margin:0 auto;height:calc(100vh - 24px);display:flex;flex-direction:column;gap:12px;transition:max-width 0.3s ease;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none;}
+body{background:#0b101c;color:#e4edf7;padding:6px;padding-top:calc(6px + env(safe-area-inset-top));padding-bottom:calc(72px + env(safe-area-inset-bottom));}
+.container{max-width:1100px;margin:0 auto;height:100%;display:flex;flex-direction:column;gap:5px;}
 
-.header-card{backdrop-filter:blur(12px);background:rgba(22,32,52,0.65);border:1px solid rgba(0,160,255,0.25);border-radius:16px;padding:16px 20px;box-shadow:0 0 35px rgba(0,130,255,0.08);flex:0 0 auto;position:relative;z-index:50;}
-.title{font-size:22px;font-weight:700;color:#44bdff;margin-bottom:10px;}
-.stat-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap;font-size:14px;color:#a2b8d8;margin-bottom:10px;}
+.header-card{background:rgba(22,32,52,0.95);border:1px solid rgba(0,160,255,0.25);border-radius:12px;padding:10px 12px;flex:0 0 auto;position:relative;z-index:60;}
+.header-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap;}
+.title{font-size:16px;font-weight:600;color:#44bdff;flex:0 0 auto;}
+.stat-row{display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:#a2b8d8;margin-bottom:5px;}
 .stat-row span{color:#fff;font-weight:bold;}
-.mode-btn-group{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;position:relative;align-items:center;}
-.mode-btn{padding:6px 14px;border-radius:8px;border:1px solid rgba(0,160,255,0.45);background:linear-gradient(135deg,rgba(0,90,190,0.45),rgba(0,45,110,0.35));color:#e8f2ff;font-size:14px;cursor:pointer;transition:0.22s;}
-.mode-btn.active{background:linear-gradient(135deg,#a85f10,#7a4408);border-color:#c47a2a;box-shadow:0 0 10px rgba(180,110,20,0.25);color:#ffe8cc;}
-.mode-btn:hover{background:linear-gradient(135deg,rgba(0,110,220,0.55),rgba(0,60,140,0.42));}
-.switch-btn.active{background:linear-gradient(135deg,#e67e22,#d35400);border-color:#e67e22;color:#fff;box-shadow:0 0 10px rgba(230,126,34,0.4);}
-.must-tag-btn{border-color:rgba(255,200,80,0.6);background:linear-gradient(135deg,rgba(120,90,20,0.5),rgba(80,50,10,0.4));color:#ffe8b0;}
-.must-tag-btn.active{background:linear-gradient(135deg,#c98a1a,#8a5a08);border-color:#e0a030;color:#fff;}
-
-.fullscreen-btn{padding:5px 12px;border-radius:8px;border:1px solid rgba(0,220,180,0.5);background:linear-gradient(135deg,rgba(0,120,110,0.55),rgba(0,60,60,0.45));color:#e8f2ff;font-size:13px;cursor:pointer;white-space:nowrap;margin-left:auto;transition:0.2s;}
-.fullscreen-btn:hover{background:linear-gradient(135deg,rgba(0,140,130,0.65),rgba(0,80,80,0.55));box-shadow:0 0 14px rgba(0,220,180,0.3);}
+.header-btns{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap;}
+.menu-toggle-btn{padding:6px 12px;border-radius:8px;border:1px solid rgba(0,160,255,0.5);background:linear-gradient(135deg,rgba(0,90,190,0.55),rgba(0,45,110,0.45));color:#e8f2ff;font-size:12px;cursor:pointer;white-space:nowrap;transition:0.2s;}
+.menu-toggle-btn.active{background:linear-gradient(135deg,#a85f10,#7a4408);border-color:#c47a2a;color:#ffe8cc;}
+.menu-toggle-btn:active{transform:scale(0.96);}
+.fullscreen-btn{padding:6px 12px;border-radius:8px;border:1px solid rgba(160,160,255,0.5);background:linear-gradient(135deg,rgba(60,60,120,0.55),rgba(30,30,70,0.45));color:#e8f2ff;font-size:12px;cursor:pointer;white-space:nowrap;transition:0.2s;}
 .fullscreen-btn:active{transform:scale(0.96);}
 
-.quiz-card-wrap{flex:1 1 auto;min-height:0;overflow-y:auto;padding-bottom:10px;}
-.quiz-card{backdrop-filter:blur(14px);background:rgba(18,28,48,0.70);border:1px solid rgba(0,170,255,0.22);border-radius:18px;padding:20px 24px;box-shadow:0 8px 45px rgba(0,100,220,0.07);}
-.q-meta{display:flex;justify-content:space-between;margin-bottom:12px;}
-.q-no{color:#44bdff;font-weight:600;}
-.q-type{color:#87a4cc;font-size:14px;}
-.question-text{font-size:16px;line-height:1.6;margin-bottom:16px;white-space:pre-wrap;}
-.option-item{border:1px solid rgba(0,145,235,0.24);border-radius:10px;padding:12px 16px;margin-bottom:10px;cursor:pointer;transition:all 0.24s ease;background:rgba(26,38,62,0.45);white-space:pre-wrap;user-select:none;}
-.option-item:hover:not(.disabled){border-color:rgba(0,180,255,0.55);background:rgba(32,48,78,0.55);transform:translateY(-1px);}
-.option-item.disabled{pointer-events:none;}
-.option-item.right{border-color:#22dd77;background:rgba(20,85,55,0.35);box-shadow:0 0 14px rgba(34,221,119,0.25);}
-.option-item.wrong{border-color:#ff4d5a;background:rgba(90,25,32,0.38);animation:shake 0.35s ease;}
-@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+.menu-area{display:none;margin-top:8px;max-height:45vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px;}
+.menu-area.show{display:block;}
+.menu-area::-webkit-scrollbar{width:0;height:0;}
+.mode-btn-group{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;position:relative;align-items:center;}
+.mode-btn{padding:8px 12px;border-radius:8px;border:1px solid rgba(0,160,255,0.45);background:linear-gradient(135deg,rgba(0,90,190,0.45),rgba(0,45,110,0.35));color:#e8f2ff;font-size:12px;cursor:pointer;transition:0.15s;display:inline-block;text-align:center;}
+.mode-btn.active{background:linear-gradient(135deg,#a85f10,#7a4408);border-color:#c47a2a;box-shadow:0 0 10px rgba(180,110,20,0.25);color:#ffe8cc;}
+.mode-btn:active{transform:scale(0.96);}
 
-.short-answer-box{margin-top:12px;border-top:1px dashed rgba(0,160,255,0.3);padding-top:12px;display:none;}
+.switch-btn { display: flex; align-items: center; gap: 6px; }
+.switch-btn.active { background: linear-gradient(135deg, #e67e22, #d35400) !important; border-color: #e67e22 !important; color: #fff !important; box-shadow: 0 0 10px rgba(230, 126, 34, 0.4) !important; }
+
+.must-tag-btn { border-color: rgba(255,200,80,0.6); background: linear-gradient(135deg,rgba(120,90,20,0.5),rgba(80,50,10,0.4)); color:#ffe8b0; }
+.must-tag-btn.active { background: linear-gradient(135deg,#c98a1a,#8a5a08) !important; border-color:#e0a030 !important; color:#fff !important; }
+
+.status-indicator { font-size:11px; color:#87a4cc; text-align:center; padding:2px 8px; min-height:20px; transition:0.2s; }
+.status-indicator.active { color:#44bdff; }
+
+.combo-tab-wrap{position:relative;display:inline-block;}
+.combo-tab-btn{padding:8px 12px;border-radius:8px;border:1px solid rgba(0,160,255,0.45);background:linear-gradient(135deg,rgba(0,90,190,0.45),rgba(0,45,110,0.35));color:#e8f2ff;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;}
+.combo-tab-btn.active{background:linear-gradient(135deg,#a85f10,#7a4408);border-color:#c47a2a;color:#ffe8cc;}
+.combo-arrow{font-size:10px;transition:transform 0.2s;}
+.combo-tab-wrap.open .combo-arrow{transform:rotate(180deg);}
+.combo-dropdown{display:none;position:absolute;top:100%;left:0;margin-top:6px;background:rgba(18,28,48,0.98);border:1px solid rgba(0,160,255,0.45);border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.55);z-index:999;min-width:200px;max-height:300px;overflow-y:auto;}
+.combo-tab-wrap.open .combo-dropdown{display:block;}
+.combo-option{padding:12px 14px;font-size:13px;color:#c0d4f0;cursor:pointer;white-space:nowrap;border-bottom:1px solid rgba(0,160,255,0.08);}
+.combo-option.active{background:linear-gradient(135deg,rgba(168,95,16,0.55),rgba(122,68,8,0.45));color:#ffd9a8;font-weight:600;}
+.combo-count{color:#87a4cc;font-size:12px;margin-left:6px;}
+
+.q-bar{flex:0 0 auto;background:rgba(22,32,52,0.95);border:1px solid rgba(0,160,255,0.25);border-radius:10px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.q-bar-info{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;}
+.q-bar-no{color:#44bdff;font-weight:600;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.q-bar-type{color:#87a4cc;font-size:11.5px;}
+.q-bar-btn{padding:7px 14px;border-radius:8px;border:1px solid rgba(0,160,255,0.5);background:linear-gradient(135deg,rgba(0,90,190,0.55),rgba(0,45,110,0.45));color:#e8f2ff;font-size:12.5px;cursor:pointer;white-space:nowrap;font-weight:600;flex:0 0 auto;}
+.q-bar-btn:active{transform:scale(0.96);}
+
+.quiz-card-wrap{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative;}
+.quiz-card{background:rgba(18,28,48,0.85);border:1px solid rgba(0,170,255,0.22);border-radius:12px;padding:12px 14px;}
+.question-text{font-size:15px;line-height:1.65;margin-bottom:12px;white-space:pre-wrap;word-break:break-word;}
+
+.short-answer-box{margin-top:10px;border-top:1px dashed rgba(0,160,255,0.3);padding-top:10px;display:none;}
 .short-answer-box.show{display:block;}
-.short-answer-box .ans-label{font-size:13px;color:#44bdff;font-weight:600;margin-bottom:8px;}
-.short-answer-content{font-size:15px;line-height:1.8;color:#c9dcf5;white-space:pre-wrap;word-break:break-word;background:rgba(10,20,40,0.5);border-radius:10px;padding:16px;border:1px solid rgba(0,160,255,0.15);}
-.short-read-badge{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:10px;background:rgba(34,221,119,0.15);color:#22dd77;border:1px solid rgba(34,221,119,0.4);}
+.short-answer-box .ans-label{font-size:12px;color:#44bdff;font-weight:600;margin-bottom:6px;}
+.short-answer-content{font-size:14px;line-height:1.75;color:#c9dcf5;white-space:pre-wrap;word-break:break-word;background:rgba(10,20,40,0.5);border-radius:8px;padding:12px;border:1px solid rgba(0,160,255,0.15);}
+.short-read-badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;margin-left:8px;background:rgba(34,221,119,0.15);color:#22dd77;border:1px solid rgba(34,221,119,0.4);}
 
-.result-tip{margin-top:16px;padding:14px 16px;border-radius:10px;font-size:15px;display:none;}
-.result-tip.ok{display:block;background:rgba(22,110,68,0.32);border:1px solid #28c774;color:#79ffb3;}
-.result-tip.err{display:block;background:rgba(100,22,30,0.35);border:1px solid #ff4855;color:#ff9ca2;}
-.btn-row{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
-button{padding:10px 18px;border-radius:8px;border:1px solid rgba(0,160,255,0.45);background:linear-gradient(135deg,rgba(0,90,190,0.45),rgba(0,45,110,0.35));color:#e8f2ff;font-size:14px;cursor:pointer;transition:0.22s;}
-button:hover{background:linear-gradient(135deg,rgba(0,110,220,0.55),rgba(0,60,140,0.42));box-shadow:0 0 18px rgba(0,140,255,0.22);}
-button:disabled{opacity:0.35;cursor:not-allowed;box-shadow:none;}
-.submit-multi-btn{background:linear-gradient(135deg,#207b4b,#134b30);border-color:#32c97c;}
-.reset-opt-btn{background:linear-gradient(135deg,#664c16,#3b2c0c);border-color:#d4a048;}
-.reset-btn{margin-left:auto;border-color:rgba(255,100,100,0.4);background:linear-gradient(135deg,rgba(140,40,40,0.4),rgba(80,20,20,0.3));}
-.import-export-btn{border-color:rgba(0,220,180,0.45);background:linear-gradient(135deg,rgba(0,120,110,0.45),rgba(0,60,60,0.35));}
-.save-html-btn{border-color:rgba(255,180,60,0.55);background:linear-gradient(135deg,rgba(150,90,10,0.5),rgba(90,50,5,0.4));}
-.read-answer-btn{background:linear-gradient(135deg,#1a5fa8,#0f3d6e);border-color:#4a9eff;}
+.option-item{border:1px solid rgba(0,145,235,0.24);border-radius:10px;padding:14px 14px;margin-bottom:10px;cursor:pointer;transition:0.15s;background:rgba(26,38,62,0.5);white-space:pre-wrap;word-break:break-word;user-select:none;font-size:15px;line-height:1.55;touch-action:manipulation;scroll-margin-top:8px;scroll-margin-bottom:8px;}
+.option-item:active:not(.disabled){transform:scale(0.98);}
+.option-item.disabled{pointer-events:none;}
+.option-item.right{border-color:#22dd77;background:rgba(20,85,55,0.45);box-shadow:0 0 14px rgba(34,221,119,0.3);}
+.option-item.wrong{border-color:#ff4d5a;background:rgba(90,25,32,0.45);}
+.empty-hint{text-align:center;padding:30px 20px;color:#87a4cc;font-size:14px;}
 
-.answer-card-wrap{backdrop-filter:blur(12px);background:rgba(22,32,52,0.65);border:1px solid rgba(0,160,255,0.25);border-radius:16px;overflow:hidden;flex:0 0 auto;transition:max-height 0.35s ease;max-height:52px;display:flex;flex-direction:column;}
-.answer-card-wrap.expand{max-height:40vh;}
-.answer-card-head{padding:14px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;flex:0 0 auto;}
-.answer-card-title{color:#44bdff;font-size:16px;}
-.fold-icon{color:#44bdff;}
-.inner-pad{padding:0 20px 18px 20px;flex:1 1 auto;overflow-y:auto;min-height:0;}
+.mobile-answer-toast{position:fixed;left:10px;right:10px;bottom:calc(80px + env(safe-area-inset-bottom));z-index:200;padding:14px 16px;border-radius:12px;font-size:15px;font-weight:600;text-align:center;display:none;box-shadow:0 6px 24px rgba(0,0,0,0.55);animation:slideUp 0.25s ease;}
+.mobile-answer-toast.ok{display:block;background:rgba(22,120,68,0.96);border:1px solid #28c774;color:#c9ffde;}
+.mobile-answer-toast.err{display:block;background:rgba(120,25,35,0.96);border:1px solid #ff4855;color:#ffcdd1;}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+
+.mobile-bottom-bar{position:fixed;left:0;right:0;bottom:0;z-index:100;background:rgba(18,28,48,0.97);border-top:1px solid rgba(0,160,255,0.35);padding:8px 10px;padding-bottom:calc(8px + env(safe-area-inset-bottom));box-shadow:0 -4px 20px rgba(0,0,0,0.45);display:flex;gap:6px;}
+.mobile-bottom-bar button{flex:1;padding:14px 6px;font-size:15px;font-weight:600;border-radius:10px;border:1px solid rgba(0,160,255,0.45);background:linear-gradient(135deg,rgba(0,90,190,0.45),rgba(0,45,110,0.35));color:#e8f2ff;cursor:pointer;touch-action:manipulation;}
+.mobile-bottom-bar button:active{transform:scale(0.96);}
+.mobile-bottom-bar .nav-btn{background:linear-gradient(135deg,rgba(0,90,190,0.6),rgba(0,45,110,0.5));}
+.mobile-bottom-bar .submit-btn{background:linear-gradient(135deg,#207b4b,#134b30);border-color:#32c97c;}
+.mobile-bottom-bar .next-btn{background:linear-gradient(135deg,#1a5fa8,#0f3d6e);border-color:#4a9eff;}
+.mobile-bottom-bar .clear-btn{background:linear-gradient(135deg,rgba(140,40,40,0.6),rgba(80,20,20,0.5));border-color:rgba(255,100,100,0.55);flex:0 0 60px;font-size:12px;}
+.mobile-bottom-bar button:disabled{opacity:0.35;}
+
+.qpanel-mask{display:none;position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,0.65);z-index:300;padding-top:calc(env(safe-area-inset-top) + 40px);padding-bottom:calc(env(safe-area-inset-bottom) + 20px);padding-left:10px;padding-right:10px;}
+.qpanel-mask.show{display:block;}
+.qpanel{background:rgba(18,28,48,0.99);border:1px solid rgba(0,160,255,0.5);border-radius:14px;max-width:800px;margin:0 auto;max-height:100%;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(0,0,0,0.7);}
+.qpanel-head{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,160,255,0.2);flex:0 0 auto;}
+.qpanel-title{color:#44bdff;font-size:14px;font-weight:600;}
+.qpanel-close{padding:6px 14px;border-radius:8px;border:1px solid rgba(255,100,100,0.45);background:rgba(140,40,40,0.4);color:#ffcdd1;font-size:12.5px;cursor:pointer;}
+.qpanel-body{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 16px;}
 .answer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px;}
-.num-block{height:40px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:bold;cursor:pointer;transition:0.2s;background:#2a374f;color:#c0d4f0;font-size:14px;}
-.num-block.unanswered{background:#2a374f;}
+.num-block{height:42px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:bold;cursor:pointer;background:#2a374f;color:#c0d4f0;font-size:13px;}
 .num-block.right{background:#17a85b;color:#fff;}
 .num-block.wrong{background:#e53946;color:#fff;}
 .num-block.read{background:#2e86de;color:#fff;}
-.num-block:hover{outline:2px solid #44bdff;}
-.inner-pad::-webkit-scrollbar{width:8px;}
-.inner-pad::-webkit-scrollbar-thumb{background:rgba(0,160,255,0.45);border-radius:4px;}
-.empty-hint{text-align:center;padding:30px 20px;color:#87a4cc;}
 
-.combo-tab-wrap{position:relative;display:inline-block;}
-.combo-tab-btn{padding:6px 14px;border-radius:8px;border:1px solid rgba(0,160,255,0.45);background:linear-gradient(135deg,rgba(0,90,190,0.45),rgba(0,45,110,0.35));color:#e8f2ff;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px;}
-.combo-tab-btn.active{background:linear-gradient(135deg,#a85f10,#7a4408);border-color:#c47a2a;box-shadow:0 0 10px rgba(180,110,20,0.25);color:#ffe8cc;}
-.combo-tab-btn:hover{background:linear-gradient(135deg,rgba(0,110,220,0.55),rgba(0,60,140,0.42));}
-.combo-arrow{font-size:10px;transition:transform 0.2s;}
-.combo-tab-wrap.open .combo-arrow{transform:rotate(180deg);}
-.combo-dropdown{display:none;position:absolute;top:100%;left:0;margin-top:6px;background:rgba(18,28,48,0.98);border:1px solid rgba(0,160,255,0.45);border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.55);z-index:999;min-width:220px;max-height:340px;overflow-y:auto;}
-.combo-tab-wrap.open .combo-dropdown{display:block;}
-.combo-option{padding:9px 16px;font-size:14px;color:#c0d4f0;cursor:pointer;white-space:nowrap;border-bottom:1px solid rgba(0,160,255,0.08);}
-.combo-option:hover{background:rgba(0,140,255,0.22);color:#fff;}
-.combo-option.active{background:linear-gradient(135deg,rgba(168,95,16,0.55),rgba(122,68,8,0.45));color:#ffd9a8;font-weight:600;}
-.combo-option .combo-count{color:#87a4cc;font-size:12px;margin-left:6px;}
-.combo-panel{display:none;flex:0 0 auto;backdrop-filter:blur(12px);background:rgba(18,28,48,0.70);border:1px solid rgba(0,170,255,0.22);border-radius:16px;padding:16px 20px;margin-bottom:10px;}
-.combo-panel.show{display:block;}
-.combo-panel-head{font-size:15px;color:#44bdff;margin-bottom:12px;}
-.combo-panel-head span{color:#fff;font-weight:bold;}
-.combo-num-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:8px;}
-.combo-num{height:42px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:bold;cursor:pointer;background:#2a374f;color:#c0d4f0;font-size:14px;}
-.combo-num.done-right{background:#17a85b;color:#fff;}
-.combo-num.done-wrong{background:#e53946;color:#fff;}
+button{padding:10px 14px;border-radius:9px;border:1px solid rgba(0,160,255,0.45);background:linear-gradient(135deg,rgba(0,90,190,0.45),rgba(0,45,110,0.35));color:#e8f2ff;font-size:14px;cursor:pointer;touch-action:manipulation;}
 
-body.is-fullscreen { padding: 12px 24px; }
-body.is-fullscreen .container { max-width: 100%; height: calc(100vh - 24px); }
-body.is-fullscreen .title { font-size: 26px; }
-body.is-fullscreen .stat-row { font-size: 16px; }
-body.is-fullscreen .mode-btn { font-size: 15px; padding: 8px 18px; }
-body.is-fullscreen .quiz-card { padding: 30px 40px; }
-body.is-fullscreen .q-no { font-size: 18px; }
-body.is-fullscreen .q-type { font-size: 16px; }
-body.is-fullscreen .question-text { font-size: 20px; line-height: 1.8; margin-bottom: 24px; }
-body.is-fullscreen .option-item { font-size: 18px; padding: 16px 20px; margin-bottom: 14px; }
-body.is-fullscreen .result-tip { font-size: 18px; padding: 18px 20px; }
-body.is-fullscreen .btn-row button { font-size: 16px; padding: 12px 24px; }
-body.is-fullscreen .answer-card-title { font-size: 18px; }
-body.is-fullscreen .short-answer-content { font-size: 18px; line-height: 1.9; }
+body[data-embedded="true"] #importBtn,
+body[data-embedded="true"] #exportBtn,
+body[data-embedded="true"] #saveHtmlBtn,
+body[data-embedded="true"] #fileInput{display:none !important;}
+
+#dblTip{position:fixed;left:50%;bottom:calc(140px + env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(0,0,0,0.85);color:#fff;font-size:12px;padding:9px 14px;border-radius:18px;z-index:9999;display:none;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.5);}
+#__toast{position:fixed;left:50%;bottom:calc(140px + env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(0,0,0,0.85);color:#fff;font-size:12px;padding:9px 16px;border-radius:18px;z-index:99998;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.5);opacity:0;transition:opacity 0.2s;}
+
+#orientationTip{display:none;position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(11,16,28,0.98);z-index:999999;align-items:center;justify-content:center;color:#e4edf7;font-size:16px;text-align:center;padding:20px;flex-direction:column;gap:14px;}
+#orientationTip.show{display:flex;}
+#orientationTip .icon{font-size:60px;}
 </style>
 <style type="text/css">.qa-sdk-wrapper {
   position: fixed;
@@ -162,88 +169,118 @@ body.is-fullscreen .short-answer-content { font-size: 18px; line-height: 1.9; }
       }
     }
   </style></head>
-<body class="">
+<body>
+
+<div id="orientationTip">
+  <div class="icon">📱↻</div>
+  <div>请竖屏使用</div>
+  <div style="font-size:13px;color:#87a4cc;">请将手机转回竖屏</div>
+</div>
+
+<div id="dblTip">💡 双击右侧切下一题 · 双击左侧切上一题 · 左滑下一题 · 右滑上一题</div>
+<div id="__toast"></div>
+<div class="mobile-answer-toast" id="mobileAnswerToast" style="display: none;"></div>
 
 <div class="container">
   <div class="header-card">
-    <div class="title">🧹 嘻唰唰电脑版</div>
-    
-    <div class="stat-row">
-      <div>当前题量：<span id="totalCnt">525</span></div>
-      <div>✅答对：<span id="rightCnt">0</span></div>
-      <div>❌答错：<span id="wrongCnt">0</span></div>
-      <div>📝已作答：<span id="answeredCnt">0</span></div>
-      <div>📖已读：<span id="readCnt">0</span></div>
-      <div>📊正确率：<span id="rateTxt">0%</span></div>
-      <button class="fullscreen-btn" id="fullscreenBtn" type="button">⛶ 全屏</button>
-    </div>
-
-    <div class="mode-btn-group" id="typeGroup">
-      <button class="mode-btn" data-type="all">混合练习</button>
-      <button class="mode-btn" data-type="single">单项选择题</button>
-      <button class="mode-btn" data-type="multiple">多项选择题</button>
-      <button class="mode-btn" data-type="truefalse">判断题</button>
-      <button class="mode-btn" data-type="short">简答题</button>
-      <button class="mode-btn" data-type="practice">实操题</button>
-      <button class="mode-btn" data-type="single_exception">单选非长题</button>
-      <button class="mode-btn" data-type="judge_wrong">判断为错</button>
-      <button class="mode-btn" data-type="frequent_wrong">易错题</button>
-
-      <div class="combo-tab-wrap" id="comboTabWrap">
-        <button class="combo-tab-btn" id="comboTabBtn">
-          <span id="comboTabLabel">A,B,C,D,E（全选）</span>
-          <span class="combo-arrow">▼</span>
-        </button>
-        <div class="combo-dropdown" id="comboDropdown"><div class="combo-option active">A,B,C,D,E（全选）<span class="combo-count">(8题)</span></div><div class="combo-option">A,B,D,E<span class="combo-count">(15题)</span></div><div class="combo-option">A,C,D,E<span class="combo-count">(14题)</span></div><div class="combo-option">A,B,C,D<span class="combo-count">(13题)</span></div><div class="combo-option">A,B,C,E<span class="combo-count">(12题)</span></div><div class="combo-option">B,C,D,E<span class="combo-count">(6题)</span></div><div class="combo-option">A,B,C<span class="combo-count">(8题)</span></div><div class="combo-option">A,B,E<span class="combo-count">(5题)</span></div><div class="combo-option">B,D,E<span class="combo-count">(4题)</span></div><div class="combo-option">B,C,E<span class="combo-count">(3题)</span></div><div class="combo-option">A,C,E<span class="combo-count">(4题)</span></div><div class="combo-option">A,D,E<span class="combo-count">(2题)</span></div><div class="combo-option">C,D,E<span class="combo-count">(3题)</span></div><div class="combo-option">A,B,D<span class="combo-count">(1题)</span></div><div class="combo-option">A,C,D<span class="combo-count">(1题)</span></div><div class="combo-option">B,C,D<span class="combo-count">(1题)</span></div></div>
+    <div class="header-top">
+      <div class="title">🧹 嘻唰唰</div>
+      <div class="header-btns">
+        <button class="fullscreen-btn" id="mFullscreenBtn" type="button">⛶ 全屏</button>
+        <button class="menu-toggle-btn active" id="menuToggleBtn" type="button">菜单 ▲</button>
       </div>
     </div>
-
-    <div class="mode-btn-group" id="mustGroup">
-      <button class="mode-btn must-tag-btn" data-type="must_multiple">⭐ 必背多选</button>
-      <button class="mode-btn must-tag-btn" data-type="must_short">⭐ 必背简答</button>
-      <button class="mode-btn must-tag-btn" data-type="must_practice">⭐ 必背实操</button>
-      <button class="mode-btn switch-btn" id="reciteModeBtn" type="button">📖 背题模式：关</button>
+    <div class="stat-row">
+      <div>题量：<span id="totalCnt">525</span></div>
+      <div>✅<span id="rightCnt">0</span></div>
+      <div>❌<span id="wrongCnt">0</span></div>
+      <div>📝<span id="answeredCnt">0</span></div>
+      <div>📖<span id="readCnt">0</span></div>
+      <div>📊<span id="rateTxt">0%</span></div>
     </div>
+    <div class="status-indicator" id="statusIndicator"></div>
 
-    <div class="mode-btn-group">
-      <button class="mode-btn active" data-mode="all">全部题目</button>
-      <button class="mode-btn" data-mode="wrong">错题训练</button>
-      <button class="mode-btn" data-shuffle="false">顺序刷题</button>
-      <button class="mode-btn" data-shuffle="true">随机刷题</button>
-      <button class="mode-btn" data-randomtype="single">单选随机</button>
-      <button class="mode-btn" data-randomtype="multiple">多选随机</button>
-      <button class="mode-btn active" data-randomtype="truefalse">判断随机</button>
-      <button class="mode-btn import-export-btn" id="importBtn">📥 导入题库</button>
-      <button class="mode-btn import-export-btn" id="exportBtn">📤 导出题库JSON</button>
-      <button class="mode-btn save-html-btn" id="saveHtmlBtn">💾 保存为自带题库HTML</button>
-      <input type="file" id="fileInput" accept=".json,application/json" style="display:none">
+    <div class="menu-area show" id="menuArea">
+      <div class="mode-btn-group">
+        <button class="mode-btn switch-btn" id="reciteModeBtn" type="button">📖 背题模式：关</button>
+      </div>
+
+      <div class="mode-btn-group" id="typeGroup">
+        <button class="mode-btn active" data-type="all" type="button">混合练习</button>
+        <button class="mode-btn" data-type="single" type="button">单选</button>
+        <button class="mode-btn" data-type="multiple" type="button">多选</button>
+        <button class="mode-btn" data-type="truefalse" type="button">判断</button>
+        <button class="mode-btn" data-type="short" type="button">简答题</button>
+        <button class="mode-btn" data-type="practice" type="button">实操题</button>
+        <button class="mode-btn" data-type="single_exception" type="button">单选非长题</button>
+        <button class="mode-btn" data-type="judge_wrong" type="button">判断为错</button>
+        <button class="mode-btn" data-type="frequent_wrong" type="button">易错题</button>
+
+        <div class="combo-tab-wrap" id="comboTabWrap">
+          <button class="combo-tab-btn" id="comboTabBtn" type="button">
+            <span id="comboTabLabel">A,B,C,D,E（全选）</span>
+            <span class="combo-arrow">▼</span>
+          </button>
+          <div class="combo-dropdown" id="comboDropdown"><div class="combo-option active">A,B,C,D,E（全选）<span class="combo-count">(8题)</span></div><div class="combo-option">A,B,D,E<span class="combo-count">(15题)</span></div><div class="combo-option">A,C,D,E<span class="combo-count">(14题)</span></div><div class="combo-option">A,B,C,D<span class="combo-count">(13题)</span></div><div class="combo-option">A,B,C,E<span class="combo-count">(12题)</span></div><div class="combo-option">B,C,D,E<span class="combo-count">(6题)</span></div><div class="combo-option">A,B,C<span class="combo-count">(8题)</span></div><div class="combo-option">A,B,E<span class="combo-count">(5题)</span></div><div class="combo-option">B,D,E<span class="combo-count">(4题)</span></div><div class="combo-option">B,C,E<span class="combo-count">(3题)</span></div><div class="combo-option">A,C,E<span class="combo-count">(4题)</span></div><div class="combo-option">A,D,E<span class="combo-count">(2题)</span></div><div class="combo-option">C,D,E<span class="combo-count">(3题)</span></div><div class="combo-option">A,B,D<span class="combo-count">(1题)</span></div><div class="combo-option">A,C,D<span class="combo-count">(1题)</span></div><div class="combo-option">B,C,D<span class="combo-count">(1题)</span></div></div>
+        </div>
+      </div>
+
+      <div class="mode-btn-group" id="mustGroup">
+        <button class="mode-btn must-tag-btn" data-type="must_multiple" type="button">⭐ 必背多选</button>
+        <button class="mode-btn must-tag-btn" data-type="must_short" type="button">⭐ 必背简答</button>
+        <button class="mode-btn must-tag-btn" data-type="must_practice" type="button">⭐ 必背实操</button>
+      </div>
+
+      <div class="mode-btn-group">
+        <button class="mode-btn active" data-mode="all" type="button">全部题目</button>
+        <button class="mode-btn" data-mode="wrong" type="button">错题训练</button>
+        <button class="mode-btn active" data-shuffle="false" type="button">顺序刷题</button>
+        <button class="mode-btn" data-shuffle="true" type="button">随机刷题</button>
+      </div>
+
+      <div class="mode-btn-group">
+        <label for="fileInput" id="importBtn" class="mode-btn import-export-btn" style="display: none;">📥 导入题库（可多选）</label>
+        <button class="mode-btn import-export-btn" id="exportBtn" type="button" style="display: none;">📤 导出题库JSON</button>
+        <button class="mode-btn save-html-btn" id="saveHtmlBtn" type="button" style="display: none;">💾 保存为自带题库HTML</button>
+        <input type="file" id="fileInput" accept=".json,application/json" multiple="" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; display: none;">
+      </div>
     </div>
   </div>
 
-  <div class="combo-panel" id="comboPanel">
-    <div class="combo-panel-head">当前组合：<span id="comboPanelCombo">A,B,C,D,E（全选）</span>（共 <span id="comboPanelCount">8</span> 题）</div>
-    <div class="combo-num-grid" id="comboNumGrid"></div>
+  <div class="combo-panel" id="comboPanel" style="display:none; background:rgba(18,28,48,0.85); border:1px solid rgba(0,170,255,0.22); border-radius:12px; padding:10px 14px; margin-bottom:6px; flex:0 0 auto; max-height:22vh; overflow-y:auto;">
+    <div style="font-size:11.5px;color:#44bdff;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center;gap:6px;">
+      <div>组合：<span id="comboPanelCombo">A,B,C,D,E（全选）</span>（共 <span id="comboPanelCount">8</span> 题）</div>
+      <button id="comboCloseBtn" type="button" style="padding:3px 9px;border-radius:6px;border:1px solid rgba(255,100,100,0.4);background:rgba(140,40,40,0.35);color:#ffcdd1;font-size:11px;cursor:pointer;">收起 ✕</button>
+    </div>
+    <div class="combo-num-grid" id="comboNumGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:4px;"></div>
   </div>
 
-  <div class="quiz-card-wrap" id="quizWrap">
-  <div class="quiz-card">
-    <div class="q-meta">
-      <div class="q-no">第1题 (no:1)</div>
-      <div class="q-type">【单选题】</div>
+  <div class="q-bar" id="qBar">
+    <div class="q-bar-info">
+      <div class="q-bar-no" id="cqNo">第1题 (no:1)</div>
+      <div class="q-bar-type" id="cqType">【单选题】</div>
     </div>
-    <div class="question-text">在网络安全职业道德体系中，职业道德“基本要求”的核心在于调和“保护社会公共利益”“恪守对雇主的忠诚”与“维护行业专业形象”之间的潜在冲突。某金融科技公司安全管理员发现雇主在未充分告知用户的情况下将包含身份证和银行卡信息的数据库共享给第三方征信机构“联合建模”。公司法务认为该行为在已签署的数据共享协议下“技术合规”。根据国际公认的职业道德准则及我国相关法律精神，最准确的论断是（）。</div>
-    <div class="opt-container">
-  <div class="option-item" data-idx="0" data-val="A">A.法务部门出具的数据共享合规意见代表了企业内部对法律风险的权威判断，安全管理员在评估该意见的合理性后，仍应以法务结论作为行动的主要依据；若后续监管调查认定违规，法务部门将承担主要责任，安全管理员的职业风险相对较低</div><div class="option-item" data-idx="1" data-val="B">B.职业道德中的“恪守保密义务”属于相对义务，在涉及重大公共安全风险且雇主拒绝配合修复时，可向特定监管机构进行最小必要范围的信息披露——但应先通过内部合规渠道逐级反映并给予雇主合理的纠正期限</div><div class="option-item" data-idx="2" data-val="C">C.“诚实守信”不仅要求不伪造日志数据，也要求安全管理员对发现的可疑数据共享行为予以关注，但该关注应优先通过内部非正式沟通向直接上级提示，并在业务项目结束后补充书面记录，以避免干扰正常业务进程——这种做法在行业实践中被视为兼顾忠诚与审慎的常见方式</div><div class="option-item" data-idx="3" data-val="D">D.依据网络安全岗位的常规职责划分，个人信息保护的合规性判定通常归属于数据保护官和法务部门，安全管理员的主要职责聚焦于系统安全防护；若安全管理员对共享行为有疑虑，可建议法务部门重新评估，但在法务部门未明确回应前，可暂按现行流程推进，后续再根据评估结果调整操作</div></div><div class="result-tip" id="resultTip"></div><div class="btn-row"><button id="prevBtn" disabled="">上一题</button>
-           <button id="nextBtn">下一题</button>
-           <button id="resetBtn" class="reset-btn">清空全部答题记录</button></div></div></div>
+    <button class="q-bar-btn" id="qpanelBtn" type="button">📋 答题卡</button>
+  </div>
 
-  <div class="answer-card-wrap" id="answerCardWrap">
-    <div class="answer-card-head" id="answerCardHead">
-      <div class="answer-card-title">📋 答题卡（点击展开）</div>
-      <div class="fold-icon" id="foldIcon">▼</div>
+  <div class="quiz-card-wrap" id="quizWrap"><div class="quiz-card"><div class="question-text">在网络安全职业道德体系中，职业道德“基本要求”的核心在于调和“保护社会公共利益”“恪守对雇主的忠诚”与“维护行业专业形象”之间的潜在冲突。某金融科技公司安全管理员发现雇主在未充分告知用户的情况下将包含身份证和银行卡信息的数据库共享给第三方征信机构“联合建模”。公司法务认为该行为在已签署的数据共享协议下“技术合规”。根据国际公认的职业道德准则及我国相关法律精神，最准确的论断是（）。</div><div class="opt-container"><div class="option-item" data-idx="0" data-val="A">A.法务部门出具的数据共享合规意见代表了企业内部对法律风险的权威判断，安全管理员在评估该意见的合理性后，仍应以法务结论作为行动的主要依据；若后续监管调查认定违规，法务部门将承担主要责任，安全管理员的职业风险相对较低</div><div class="option-item" data-idx="1" data-val="B">B.职业道德中的“恪守保密义务”属于相对义务，在涉及重大公共安全风险且雇主拒绝配合修复时，可向特定监管机构进行最小必要范围的信息披露——但应先通过内部合规渠道逐级反映并给予雇主合理的纠正期限</div><div class="option-item" data-idx="2" data-val="C">C.“诚实守信”不仅要求不伪造日志数据，也要求安全管理员对发现的可疑数据共享行为予以关注，但该关注应优先通过内部非正式沟通向直接上级提示，并在业务项目结束后补充书面记录，以避免干扰正常业务进程——这种做法在行业实践中被视为兼顾忠诚与审慎的常见方式</div><div class="option-item" data-idx="3" data-val="D">D.依据网络安全岗位的常规职责划分，个人信息保护的合规性判定通常归属于数据保护官和法务部门，安全管理员的主要职责聚焦于系统安全防护；若安全管理员对共享行为有疑虑，可建议法务部门重新评估，但在法务部门未明确回应前，可暂按现行流程推进，后续再根据评估结果调整操作</div></div></div></div>
+</div>
+
+<div class="mobile-bottom-bar" id="mobileBottomBar">
+  <button class="nav-btn" id="mPrevBtn" type="button" disabled="">◀ 上一题</button>
+  <button class="submit-btn" id="mSubmitBtn" type="button" style="display:none;">✅ 提交</button>
+  <button class="next-btn" id="mNextBtn" type="button">下一题 ▶</button>
+  <button class="clear-btn" id="mClearBtn" type="button">🗑️ 清空</button>
+</div>
+
+<div class="qpanel-mask" id="qpanelMask">
+  <div class="qpanel">
+    <div class="qpanel-head">
+      <div class="qpanel-title">📋 答题卡</div>
+      <button class="qpanel-close" id="qpanelCloseBtn" type="button">关闭 ✕</button>
     </div>
-    <div class="inner-pad">
-      <div class="answer-grid" id="answerGrid"><div class="num-block unanswered">1</div><div class="num-block unanswered">2</div><div class="num-block unanswered">3</div><div class="num-block unanswered">4</div><div class="num-block unanswered">5</div><div class="num-block unanswered">6</div><div class="num-block unanswered">7</div><div class="num-block unanswered">8</div><div class="num-block unanswered">9</div><div class="num-block unanswered">10</div><div class="num-block unanswered">11</div><div class="num-block unanswered">12</div><div class="num-block unanswered">13</div><div class="num-block unanswered">14</div><div class="num-block unanswered">15</div><div class="num-block unanswered">16</div><div class="num-block unanswered">17</div><div class="num-block unanswered">18</div><div class="num-block unanswered">19</div><div class="num-block unanswered">20</div><div class="num-block unanswered">21</div><div class="num-block unanswered">22</div><div class="num-block unanswered">23</div><div class="num-block unanswered">24</div><div class="num-block unanswered">25</div><div class="num-block unanswered">26</div><div class="num-block unanswered">27</div><div class="num-block unanswered">28</div><div class="num-block unanswered">29</div><div class="num-block unanswered">30</div><div class="num-block unanswered">31</div><div class="num-block unanswered">32</div><div class="num-block unanswered">33</div><div class="num-block unanswered">34</div><div class="num-block unanswered">35</div><div class="num-block unanswered">36</div><div class="num-block unanswered">37</div><div class="num-block unanswered">38</div><div class="num-block unanswered">39</div><div class="num-block unanswered">40</div><div class="num-block unanswered">41</div><div class="num-block unanswered">42</div><div class="num-block unanswered">43</div><div class="num-block unanswered">44</div><div class="num-block unanswered">45</div><div class="num-block unanswered">46</div><div class="num-block unanswered">47</div><div class="num-block unanswered">48</div><div class="num-block unanswered">49</div><div class="num-block unanswered">50</div><div class="num-block unanswered">51</div><div class="num-block unanswered">52</div><div class="num-block unanswered">53</div><div class="num-block unanswered">54</div><div class="num-block unanswered">55</div><div class="num-block unanswered">56</div><div class="num-block unanswered">57</div><div class="num-block unanswered">58</div><div class="num-block unanswered">59</div><div class="num-block unanswered">60</div><div class="num-block unanswered">61</div><div class="num-block unanswered">62</div><div class="num-block unanswered">63</div><div class="num-block unanswered">64</div><div class="num-block unanswered">65</div><div class="num-block unanswered">66</div><div class="num-block unanswered">67</div><div class="num-block unanswered">68</div><div class="num-block unanswered">69</div><div class="num-block unanswered">70</div><div class="num-block unanswered">71</div><div class="num-block unanswered">72</div><div class="num-block unanswered">73</div><div class="num-block unanswered">74</div><div class="num-block unanswered">75</div><div class="num-block unanswered">76</div><div class="num-block unanswered">77</div><div class="num-block unanswered">78</div><div class="num-block unanswered">79</div><div class="num-block unanswered">80</div><div class="num-block unanswered">81</div><div class="num-block unanswered">82</div><div class="num-block unanswered">83</div><div class="num-block unanswered">84</div><div class="num-block unanswered">85</div><div class="num-block unanswered">86</div><div class="num-block unanswered">87</div><div class="num-block unanswered">88</div><div class="num-block unanswered">89</div><div class="num-block unanswered">90</div><div class="num-block unanswered">91</div><div class="num-block unanswered">92</div><div class="num-block unanswered">93</div><div class="num-block unanswered">94</div><div class="num-block unanswered">95</div><div class="num-block unanswered">96</div><div class="num-block unanswered">97</div><div class="num-block unanswered">98</div><div class="num-block unanswered">99</div><div class="num-block unanswered">100</div><div class="num-block unanswered">101</div><div class="num-block unanswered">102</div><div class="num-block unanswered">103</div><div class="num-block unanswered">104</div><div class="num-block unanswered">105</div><div class="num-block unanswered">106</div><div class="num-block unanswered">107</div><div class="num-block unanswered">108</div><div class="num-block unanswered">109</div><div class="num-block unanswered">110</div><div class="num-block unanswered">111</div><div class="num-block unanswered">112</div><div class="num-block unanswered">113</div><div class="num-block unanswered">114</div><div class="num-block unanswered">115</div><div class="num-block unanswered">116</div><div class="num-block unanswered">117</div><div class="num-block unanswered">118</div><div class="num-block unanswered">119</div><div class="num-block unanswered">120</div><div class="num-block unanswered">121</div><div class="num-block unanswered">122</div><div class="num-block unanswered">123</div><div class="num-block unanswered">124</div><div class="num-block unanswered">125</div><div class="num-block unanswered">126</div><div class="num-block unanswered">127</div><div class="num-block unanswered">128</div><div class="num-block unanswered">129</div><div class="num-block unanswered">130</div><div class="num-block unanswered">131</div><div class="num-block unanswered">132</div><div class="num-block unanswered">133</div><div class="num-block unanswered">134</div><div class="num-block unanswered">135</div><div class="num-block unanswered">136</div><div class="num-block unanswered">137</div><div class="num-block unanswered">138</div><div class="num-block unanswered">139</div><div class="num-block unanswered">140</div><div class="num-block unanswered">141</div><div class="num-block unanswered">142</div><div class="num-block unanswered">143</div><div class="num-block unanswered">144</div><div class="num-block unanswered">145</div><div class="num-block unanswered">146</div><div class="num-block unanswered">147</div><div class="num-block unanswered">148</div><div class="num-block unanswered">149</div><div class="num-block unanswered">150</div><div class="num-block unanswered">151</div><div class="num-block unanswered">152</div><div class="num-block unanswered">153</div><div class="num-block unanswered">154</div><div class="num-block unanswered">155</div><div class="num-block unanswered">156</div><div class="num-block unanswered">157</div><div class="num-block unanswered">158</div><div class="num-block unanswered">159</div><div class="num-block unanswered">160</div><div class="num-block unanswered">161</div><div class="num-block unanswered">162</div><div class="num-block unanswered">163</div><div class="num-block unanswered">164</div><div class="num-block unanswered">165</div><div class="num-block unanswered">166</div><div class="num-block unanswered">167</div><div class="num-block unanswered">168</div><div class="num-block unanswered">169</div><div class="num-block unanswered">170</div><div class="num-block unanswered">171</div><div class="num-block unanswered">172</div><div class="num-block unanswered">173</div><div class="num-block unanswered">174</div><div class="num-block unanswered">175</div><div class="num-block unanswered">176</div><div class="num-block unanswered">177</div><div class="num-block unanswered">178</div><div class="num-block unanswered">179</div><div class="num-block unanswered">180</div><div class="num-block unanswered">181</div><div class="num-block unanswered">182</div><div class="num-block unanswered">183</div><div class="num-block unanswered">184</div><div class="num-block unanswered">185</div><div class="num-block unanswered">186</div><div class="num-block unanswered">187</div><div class="num-block unanswered">188</div><div class="num-block unanswered">189</div><div class="num-block unanswered">190</div><div class="num-block unanswered">191</div><div class="num-block unanswered">192</div><div class="num-block unanswered">193</div><div class="num-block unanswered">194</div><div class="num-block unanswered">195</div><div class="num-block unanswered">196</div><div class="num-block unanswered">197</div><div class="num-block unanswered">198</div><div class="num-block unanswered">199</div><div class="num-block unanswered">200</div><div class="num-block unanswered">201</div><div class="num-block unanswered">202</div><div class="num-block unanswered">203</div><div class="num-block unanswered">204</div><div class="num-block unanswered">205</div><div class="num-block unanswered">206</div><div class="num-block unanswered">207</div><div class="num-block unanswered">208</div><div class="num-block unanswered">209</div><div class="num-block unanswered">210</div><div class="num-block unanswered">211</div><div class="num-block unanswered">212</div><div class="num-block unanswered">213</div><div class="num-block unanswered">214</div><div class="num-block unanswered">215</div><div class="num-block unanswered">216</div><div class="num-block unanswered">217</div><div class="num-block unanswered">218</div><div class="num-block unanswered">219</div><div class="num-block unanswered">220</div><div class="num-block unanswered">221</div><div class="num-block unanswered">222</div><div class="num-block unanswered">223</div><div class="num-block unanswered">224</div><div class="num-block unanswered">225</div><div class="num-block unanswered">226</div><div class="num-block unanswered">227</div><div class="num-block unanswered">228</div><div class="num-block unanswered">229</div><div class="num-block unanswered">230</div><div class="num-block unanswered">231</div><div class="num-block unanswered">232</div><div class="num-block unanswered">233</div><div class="num-block unanswered">234</div><div class="num-block unanswered">235</div><div class="num-block unanswered">236</div><div class="num-block unanswered">237</div><div class="num-block unanswered">238</div><div class="num-block unanswered">239</div><div class="num-block unanswered">240</div><div class="num-block unanswered">241</div><div class="num-block unanswered">242</div><div class="num-block unanswered">243</div><div class="num-block unanswered">244</div><div class="num-block unanswered">245</div><div class="num-block unanswered">246</div><div class="num-block unanswered">247</div><div class="num-block unanswered">248</div><div class="num-block unanswered">249</div><div class="num-block unanswered">250</div><div class="num-block unanswered">251</div><div class="num-block unanswered">252</div><div class="num-block unanswered">253</div><div class="num-block unanswered">254</div><div class="num-block unanswered">255</div><div class="num-block unanswered">256</div><div class="num-block unanswered">257</div><div class="num-block unanswered">258</div><div class="num-block unanswered">259</div><div class="num-block unanswered">260</div><div class="num-block unanswered">261</div><div class="num-block unanswered">262</div><div class="num-block unanswered">263</div><div class="num-block unanswered">264</div><div class="num-block unanswered">265</div><div class="num-block unanswered">266</div><div class="num-block unanswered">267</div><div class="num-block unanswered">268</div><div class="num-block unanswered">269</div><div class="num-block unanswered">270</div><div class="num-block unanswered">271</div><div class="num-block unanswered">272</div><div class="num-block unanswered">273</div><div class="num-block unanswered">274</div><div class="num-block unanswered">275</div><div class="num-block unanswered">276</div><div class="num-block unanswered">277</div><div class="num-block unanswered">278</div><div class="num-block unanswered">279</div><div class="num-block unanswered">280</div><div class="num-block unanswered">281</div><div class="num-block unanswered">282</div><div class="num-block unanswered">283</div><div class="num-block unanswered">284</div><div class="num-block unanswered">285</div><div class="num-block unanswered">286</div><div class="num-block unanswered">287</div><div class="num-block unanswered">288</div><div class="num-block unanswered">289</div><div class="num-block unanswered">290</div><div class="num-block unanswered">291</div><div class="num-block unanswered">292</div><div class="num-block unanswered">293</div><div class="num-block unanswered">294</div><div class="num-block unanswered">295</div><div class="num-block unanswered">296</div><div class="num-block unanswered">297</div><div class="num-block unanswered">298</div><div class="num-block unanswered">299</div><div class="num-block unanswered">300</div><div class="num-block unanswered">301</div><div class="num-block unanswered">302</div><div class="num-block unanswered">303</div><div class="num-block unanswered">304</div><div class="num-block unanswered">305</div><div class="num-block unanswered">306</div><div class="num-block unanswered">307</div><div class="num-block unanswered">308</div><div class="num-block unanswered">309</div><div class="num-block unanswered">310</div><div class="num-block unanswered">311</div><div class="num-block unanswered">312</div><div class="num-block unanswered">313</div><div class="num-block unanswered">314</div><div class="num-block unanswered">315</div><div class="num-block unanswered">316</div><div class="num-block unanswered">317</div><div class="num-block unanswered">318</div><div class="num-block unanswered">319</div><div class="num-block unanswered">320</div><div class="num-block unanswered">321</div><div class="num-block unanswered">322</div><div class="num-block unanswered">323</div><div class="num-block unanswered">324</div><div class="num-block unanswered">325</div><div class="num-block unanswered">326</div><div class="num-block unanswered">327</div><div class="num-block unanswered">328</div><div class="num-block unanswered">329</div><div class="num-block unanswered">330</div><div class="num-block unanswered">331</div><div class="num-block unanswered">332</div><div class="num-block unanswered">333</div><div class="num-block unanswered">334</div><div class="num-block unanswered">335</div><div class="num-block unanswered">336</div><div class="num-block unanswered">337</div><div class="num-block unanswered">338</div><div class="num-block unanswered">339</div><div class="num-block unanswered">340</div><div class="num-block unanswered">341</div><div class="num-block unanswered">342</div><div class="num-block unanswered">343</div><div class="num-block unanswered">344</div><div class="num-block unanswered">345</div><div class="num-block unanswered">346</div><div class="num-block unanswered">347</div><div class="num-block unanswered">348</div><div class="num-block unanswered">349</div><div class="num-block unanswered">350</div><div class="num-block unanswered">351</div><div class="num-block unanswered">352</div><div class="num-block unanswered">353</div><div class="num-block unanswered">354</div><div class="num-block unanswered">355</div><div class="num-block unanswered">356</div><div class="num-block unanswered">357</div><div class="num-block unanswered">358</div><div class="num-block unanswered">359</div><div class="num-block unanswered">360</div><div class="num-block unanswered">361</div><div class="num-block unanswered">362</div><div class="num-block unanswered">363</div><div class="num-block unanswered">364</div><div class="num-block unanswered">365</div><div class="num-block unanswered">366</div><div class="num-block unanswered">367</div><div class="num-block unanswered">368</div><div class="num-block unanswered">369</div><div class="num-block unanswered">370</div><div class="num-block unanswered">371</div><div class="num-block unanswered">372</div><div class="num-block unanswered">373</div><div class="num-block unanswered">374</div><div class="num-block unanswered">375</div><div class="num-block unanswered">376</div><div class="num-block unanswered">377</div><div class="num-block unanswered">378</div><div class="num-block unanswered">379</div><div class="num-block unanswered">380</div><div class="num-block unanswered">381</div><div class="num-block unanswered">382</div><div class="num-block unanswered">383</div><div class="num-block unanswered">384</div><div class="num-block unanswered">385</div><div class="num-block unanswered">386</div><div class="num-block unanswered">387</div><div class="num-block unanswered">388</div><div class="num-block unanswered">389</div><div class="num-block unanswered">390</div><div class="num-block unanswered">391</div><div class="num-block unanswered">392</div><div class="num-block unanswered">393</div><div class="num-block unanswered">394</div><div class="num-block unanswered">395</div><div class="num-block unanswered">396</div><div class="num-block unanswered">397</div><div class="num-block unanswered">398</div><div class="num-block unanswered">399</div><div class="num-block unanswered">400</div><div class="num-block unanswered">1</div><div class="num-block unanswered">2</div><div class="num-block unanswered">3</div><div class="num-block unanswered">4</div><div class="num-block unanswered">5</div><div class="num-block unanswered">1</div><div class="num-block unanswered">2</div><div class="num-block unanswered">3</div><div class="num-block unanswered">4</div><div class="num-block unanswered">5</div><div class="num-block unanswered">6</div><div class="num-block unanswered">7</div><div class="num-block unanswered">8</div><div class="num-block unanswered">9</div><div class="num-block unanswered">10</div><div class="num-block unanswered">11</div><div class="num-block unanswered">12</div><div class="num-block unanswered">13</div><div class="num-block unanswered">14</div><div class="num-block unanswered">15</div><div class="num-block unanswered">16</div><div class="num-block unanswered">17</div><div class="num-block unanswered">18</div><div class="num-block unanswered">19</div><div class="num-block unanswered">20</div><div class="num-block unanswered">21</div><div class="num-block unanswered">22</div><div class="num-block unanswered">23</div><div class="num-block unanswered">24</div><div class="num-block unanswered">25</div><div class="num-block unanswered">26</div><div class="num-block unanswered">27</div><div class="num-block unanswered">28</div><div class="num-block unanswered">29</div><div class="num-block unanswered">30</div><div class="num-block unanswered">31</div><div class="num-block unanswered">32</div><div class="num-block unanswered">33</div><div class="num-block unanswered">34</div><div class="num-block unanswered">35</div><div class="num-block unanswered">36</div><div class="num-block unanswered">37</div><div class="num-block unanswered">38</div><div class="num-block unanswered">39</div><div class="num-block unanswered">40</div><div class="num-block unanswered">41</div><div class="num-block unanswered">42</div><div class="num-block unanswered">43</div><div class="num-block unanswered">44</div><div class="num-block unanswered">45</div><div class="num-block unanswered">46</div><div class="num-block unanswered">47</div><div class="num-block unanswered">48</div><div class="num-block unanswered">49</div><div class="num-block unanswered">50</div><div class="num-block unanswered">51</div><div class="num-block unanswered">52</div><div class="num-block unanswered">53</div><div class="num-block unanswered">54</div><div class="num-block unanswered">55</div><div class="num-block unanswered">56</div><div class="num-block unanswered">57</div><div class="num-block unanswered">58</div><div class="num-block unanswered">59</div><div class="num-block unanswered">60</div><div class="num-block unanswered">1</div><div class="num-block unanswered">2</div><div class="num-block unanswered">3</div><div class="num-block unanswered">4</div><div class="num-block unanswered">5</div><div class="num-block unanswered">6</div><div class="num-block unanswered">7</div><div class="num-block unanswered">8</div><div class="num-block unanswered">9</div><div class="num-block unanswered">10</div><div class="num-block unanswered">11</div><div class="num-block unanswered">12</div><div class="num-block unanswered">13</div><div class="num-block unanswered">14</div><div class="num-block unanswered">15</div><div class="num-block unanswered">16</div><div class="num-block unanswered">17</div><div class="num-block unanswered">18</div><div class="num-block unanswered">19</div><div class="num-block unanswered">20</div><div class="num-block unanswered">21</div><div class="num-block unanswered">22</div><div class="num-block unanswered">23</div><div class="num-block unanswered">24</div><div class="num-block unanswered">25</div><div class="num-block unanswered">26</div><div class="num-block unanswered">27</div><div class="num-block unanswered">28</div><div class="num-block unanswered">29</div><div class="num-block unanswered">30</div><div class="num-block unanswered">31</div><div class="num-block unanswered">32</div><div class="num-block unanswered">33</div><div class="num-block unanswered">34</div><div class="num-block unanswered">35</div><div class="num-block unanswered">36</div><div class="num-block unanswered">37</div><div class="num-block unanswered">38</div><div class="num-block unanswered">39</div><div class="num-block unanswered">40</div><div class="num-block unanswered">41</div><div class="num-block unanswered">42</div><div class="num-block unanswered">43</div><div class="num-block unanswered">44</div><div class="num-block unanswered">45</div><div class="num-block unanswered">46</div><div class="num-block unanswered">47</div><div class="num-block unanswered">48</div><div class="num-block unanswered">49</div><div class="num-block unanswered">50</div><div class="num-block unanswered">51</div><div class="num-block unanswered">52</div><div class="num-block unanswered">53</div><div class="num-block unanswered">54</div><div class="num-block unanswered">55</div><div class="num-block unanswered">56</div><div class="num-block unanswered">57</div><div class="num-block unanswered">58</div><div class="num-block unanswered">59</div><div class="num-block unanswered">60</div></div>
+    <div class="qpanel-body">
+      <div class="answer-grid" id="qpanelAnswerGrid"></div>
     </div>
   </div>
 </div>
@@ -7559,12 +7596,71 @@ let questionList = [
 </script>
 
 <script>
+window.onerror = function(msg, url, line, col){ console.error("JS Error:", msg, "line", line); return false; };
+var isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+
+(function lockPortrait(){
+  var isTouchDevice = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
+  var isMobileUA = /Android|iPhone|iPad|iPod|Mobile|HarmonyOS|MicroMessenger/i.test(navigator.userAgent);
+  if(!(isTouchDevice && isMobileUA)) return;
+  var tip = document.getElementById("orientationTip");
+  function check(){
+    var isLandscape = false;
+    if(window.screen && window.screen.orientation && window.screen.orientation.type){
+      isLandscape = window.screen.orientation.type.indexOf("landscape") === 0;
+    }else{
+      isLandscape = window.innerWidth > window.innerHeight;
+    }
+    if(isLandscape){ tip.classList.add("show"); } else { tip.classList.remove("show"); }
+  }
+  window.addEventListener("resize", check);
+  window.addEventListener("orientationchange", function(){ setTimeout(check, 200); });
+  try{ if(screen.orientation && screen.orientation.lock){ screen.orientation.lock("portrait").catch(function(){}); } }catch(e){}
+  setTimeout(check, 100);
+})();
+
+function wxAlert(msg, onOk){ showDialog(msg, false, onOk, null); }
+function wxConfirm(msg, onOk, onCancel){ showDialog(msg, true, onOk, onCancel); }
+function showDialog(msg, hasCancel, onOk, onCancel){
+  var old = document.getElementById("__wxDialog");
+  if(old) old.parentNode.removeChild(old);
+  var mask = document.createElement("div");
+  mask.id = "__wxDialog";
+  mask.style.cssText = "position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,0.65);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;";
+  var box = document.createElement("div");
+  box.style.cssText = "background:#162034;border:1px solid rgba(0,160,255,0.45);border-radius:14px;padding:20px;max-width:340px;width:100%;color:#e4edf7;font-size:15px;line-height:1.7;box-shadow:0 10px 40px rgba(0,0,0,0.6);";
+  var textDiv = document.createElement("div");
+  textDiv.style.cssText = "white-space:pre-wrap;word-break:break-word;margin-bottom:16px;";
+  textDiv.textContent = msg;
+  box.appendChild(textDiv);
+  var btnRow = document.createElement("div");
+  btnRow.style.cssText = "display:flex;gap:10px;";
+  if(hasCancel){
+    var cancelBtn = document.createElement("button");
+    cancelBtn.textContent = "取消";
+    cancelBtn.style.cssText = "flex:1;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);color:#e4edf7;font-size:15px;";
+    cancelBtn.onclick = function(){ if(mask.parentNode) mask.parentNode.removeChild(mask); if(onCancel) onCancel(); };
+    btnRow.appendChild(cancelBtn);
+  }
+  var okBtn = document.createElement("button");
+  okBtn.textContent = "确定";
+  okBtn.style.cssText = "flex:1;padding:12px;border-radius:8px;border:1px solid #32c97c;background:linear-gradient(135deg,#207b4b,#134b30);color:#fff;font-size:15px;";
+  okBtn.onclick = function(){ if(mask.parentNode) mask.parentNode.removeChild(mask); if(onOk) onOk(); };
+  btnRow.appendChild(okBtn);
+  box.appendChild(btnRow);
+  mask.appendChild(box);
+  document.body.appendChild(mask);
+}
+
+function safeGet(key, def){ try{ return localStorage.getItem(key) || def; }catch(e){ return def; } }
+function safeSet(key, val){ try{ localStorage.setItem(key, val); }catch(e){} }
+
 const SINGLE_EXCEPTION_NOS = new Set([1,2,8,9,10,11,16,17,18,21,22,24,25,27,28,29,31,32,33,37,43,81,82,83,84,87,102,103,105,106,108,109,112,114,115,116,117,118,119,120,121,128,161,162,163,164,165,184]);
 const JUDGE_WRONG_NOS = new Set([302,305,306,309,311,313,315,316,318,319,321,323,324,326,327,330,331,333,336,340,341,346,347,349,353,356,358,360,362,363,366,368,369,372,374,376,379,383,385,388,390,394,396,399]);
 
-const MUST_MULTIPLE_NOS = new Set([1,2,3,4,5]);
 const MUST_SHORT_NOS = new Set([1,2,3,5]);
 const MUST_PRACTICE_NOS = new Set([1,2,3,4,5]);
+const MUST_MULTIPLE_NOS = new Set([1,2,3,4,5]);
 
 const COMBO_DATA = [
   { combo: "A,B,C,D,E", label: "A,B,C,D,E（全选）", count: 8,  nos: [212,213,216,218,219,220,242,243] },
@@ -7585,16 +7681,15 @@ const COMBO_DATA = [
   { combo: "B,C,D",     label: "B,C,D",             count: 1,  nos: [295] }
 ];
 
-const STORAGE_KEY = "security_quiz_record_desktop_v2";
-const WRONG_COUNT_KEY = "security_quiz_wrong_count_desktop_v2";
-const SHORT_READ_KEY = "security_quiz_short_read_desktop_v2";
-const PROGRESS_KEY = "security_quiz_progress_desktop_v2";
+const STORAGE_KEY = "security_quiz_record_v20_final";
+const WRONG_COUNT_KEY = "security_quiz_wrong_count_v20_final";
+const PROGRESS_KEY = "security_quiz_progress_v20_final";
+const SHORT_READ_KEY = "security_quiz_short_read_v20_final";
 
 let currentIdx = 0;
-let answerRecord = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-let wrongCountMap = JSON.parse(localStorage.getItem(WRONG_COUNT_KEY) || "{}");
-let shortReadSet = new Set(JSON.parse(localStorage.getItem(SHORT_READ_KEY) || "[]"));
-let isExpandCard = false;
+let answerRecord = JSON.parse(safeGet(STORAGE_KEY, "[]"));
+let wrongCountMap = JSON.parse(safeGet(WRONG_COUNT_KEY, "{}"));
+let shortReadSet = new Set(JSON.parse(safeGet(SHORT_READ_KEY, "[]")));
 let quizMode = "all";
 let shuffleMode = false;
 let typeFilter = "all";
@@ -7604,19 +7699,12 @@ let currentComboIndex = 0;
 let isReciteMode = false;
 
 const quizWrap = document.getElementById("quizWrap");
-const answerGridDom = document.getElementById("answerGrid");
-const answerCardWrapDom = document.getElementById("answerCardWrap");
-const answerCardHeadDom = document.getElementById("answerCardHead");
-const foldIconDom = document.getElementById("foldIcon");
 const totalCntDom = document.getElementById("totalCnt");
 const answeredCntDom = document.getElementById("answeredCnt");
 const rightCntDom = document.getElementById("rightCnt");
 const wrongCntDom = document.getElementById("wrongCnt");
 const readCntDom = document.getElementById("readCnt");
 const rateTxtDom = document.getElementById("rateTxt");
-const importBtn = document.getElementById("importBtn");
-const exportBtn = document.getElementById("exportBtn");
-const saveHtmlBtn = document.getElementById("saveHtmlBtn");
 const fileInput = document.getElementById("fileInput");
 const comboTabWrap = document.getElementById("comboTabWrap");
 const comboTabBtn = document.getElementById("comboTabBtn");
@@ -7626,7 +7714,33 @@ const comboPanel = document.getElementById("comboPanel");
 const comboPanelCombo = document.getElementById("comboPanelCombo");
 const comboPanelCount = document.getElementById("comboPanelCount");
 const comboNumGrid = document.getElementById("comboNumGrid");
+const comboCloseBtn = document.getElementById("comboCloseBtn");
+const mPrevBtn = document.getElementById("mPrevBtn");
+const mSubmitBtn = document.getElementById("mSubmitBtn");
+const mNextBtn = document.getElementById("mNextBtn");
+const mClearBtn = document.getElementById("mClearBtn");
+const mobileAnswerToast = document.getElementById("mobileAnswerToast");
+const cqNo = document.getElementById("cqNo");
+const cqType = document.getElementById("cqType");
+const menuToggleBtn = document.getElementById("menuToggleBtn");
+const menuArea = document.getElementById("menuArea");
+const qpanelBtn = document.getElementById("qpanelBtn");
+const qpanelMask = document.getElementById("qpanelMask");
+const qpanelCloseBtn = document.getElementById("qpanelCloseBtn");
+const qpanelAnswerGrid = document.getElementById("qpanelAnswerGrid");
 const reciteModeBtn = document.getElementById("reciteModeBtn");
+const statusIndicator = document.getElementById("statusIndicator");
+
+(function hideAdminButtonsIfEmbedded(){
+  if(document.body.getAttribute("data-embedded") === "true"){
+    ["importBtn", "exportBtn", "saveHtmlBtn"].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.style.display = "none";
+    });
+    const fi = document.getElementById("fileInput");
+    if(fi) fi.style.display = "none";
+  }
+})();
 
 function isMultiType(t){ return t === "multi" || t === "multiple" || t === "多选题"; }
 function isSingleType(t){ return t === "single" || t === "单选题"; }
@@ -7642,48 +7756,68 @@ function shuffleArray(arr){
   for(let i = tmp.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [tmp[i], tmp[j]] = [tmp[j], tmp[i]]; }
   return tmp;
 }
-
-function saveRecord(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(answerRecord)); }
-function saveWrongCount(){ localStorage.setItem(WRONG_COUNT_KEY, JSON.stringify(wrongCountMap)); }
-function saveShortRead(){ localStorage.setItem(SHORT_READ_KEY, JSON.stringify([...shortReadSet])); }
+function saveRecord(){ safeSet(STORAGE_KEY, JSON.stringify(answerRecord)); }
+function saveWrongCount(){ safeSet(WRONG_COUNT_KEY, JSON.stringify(wrongCountMap)); }
+function saveShortRead(){ safeSet(SHORT_READ_KEY, JSON.stringify([...shortReadSet])); }
 
 function getQuestionStatus(type, no){
-  const rec = answerRecord.find(r=>r.key === (type+":"+no));
+  const key = type + ":" + no;
+  const rec = answerRecord.find(r => r.key === key);
   return rec ? rec.status : null;
 }
-function getWrongCount(type, no){ return wrongCountMap[type+":"+no] || 0; }
-function isShortRead(type, no){ return shortReadSet.has(type+":"+no); }
+function getWrongCount(type, no){ return wrongCountMap[type + ":" + no] || 0; }
+function isShortRead(type, no){ return shortReadSet.has(type + ":" + no); }
 
-/* ===== 进度记忆 ===== */
+function escapeHtml(s){ if(s === null || s === undefined) return ""; return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+function setStatus(text, active){
+  statusIndicator.textContent = text || "";
+  statusIndicator.classList.toggle("active", !!active);
+}
+
+function showToast(msg){
+  var el = document.getElementById("__toast");
+  if(!el) return;
+  el.textContent = msg;
+  el.style.opacity = "1";
+  clearTimeout(el._t);
+  el._t = setTimeout(function(){ el.style.opacity = "0"; }, 2000);
+}
+
 function saveProgress(){
   const currentQ = activeQuizList[currentIdx];
+  const currentKey = currentQ ? qKey(currentQ) : null;
+  const activeOrder = activeQuizList.map(function(q){ return qKey(q); });
   const progress = {
-    quizMode: quizMode,
-    typeFilter: typeFilter,
-    shuffleMode: shuffleMode,
-    currentComboIndex: currentComboIndex,
-    isReciteMode: isReciteMode,
-    currentKey: currentQ ? qKey(currentQ) : null,
-    activeOrder: activeQuizList.map(q => qKey(q))
+    quizMode, typeFilter, shuffleMode, currentComboIndex,
+    currentKey, activeOrder, isReciteMode
   };
-  localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+  safeSet(PROGRESS_KEY, JSON.stringify(progress));
 }
 
 function restoreProgress(){
-  const saved = localStorage.getItem(PROGRESS_KEY);
-  if(!saved) return false;
+  const saved = safeGet(PROGRESS_KEY, "");
+  if(!saved) return;
   try{
-    const p = JSON.parse(saved);
-    quizMode = p.quizMode || "all";
-    typeFilter = p.typeFilter || "all";
-    shuffleMode = p.shuffleMode || false;
-    currentComboIndex = p.currentComboIndex || 0;
-    isReciteMode = !!p.isReciteMode;
+    const progress = JSON.parse(saved);
+    quizMode = progress.quizMode || "all";
+    typeFilter = progress.typeFilter || "all";
+    shuffleMode = progress.shuffleMode || false;
+    currentComboIndex = progress.currentComboIndex || 0;
+    isReciteMode = progress.isReciteMode || false;
 
-    // 恢复筛选按钮的 active 状态
     document.querySelectorAll(".mode-btn[data-type]").forEach(b=>{
-      b.classList.toggle("active", b.dataset.type === typeFilter);
+      b.classList.remove("active");
+      if(b.dataset.type === typeFilter) b.classList.add("active");
     });
+    if(typeFilter === "combo"){
+      document.querySelectorAll(".mode-btn[data-type]").forEach(b=>b.classList.remove("active"));
+      comboTabBtn.classList.add("active");
+      comboTabLabel.innerText = COMBO_DATA[currentComboIndex].label;
+      comboPanel.style.display = "block";
+      renderComboPanel();
+    }
+
     document.querySelectorAll(".mode-btn[data-mode]").forEach(b=>{
       b.classList.toggle("active", b.dataset.mode === quizMode);
     });
@@ -7691,63 +7825,85 @@ function restoreProgress(){
       b.classList.toggle("active", (b.dataset.shuffle === "true") === shuffleMode);
     });
 
-    if(typeFilter === "combo"){
-      document.querySelectorAll(".mode-btn[data-type]").forEach(b=>b.classList.remove("active"));
-      comboTabBtn.classList.add("active");
-      comboTabLabel.innerText = COMBO_DATA[currentComboIndex].label;
-      comboPanel.classList.add("show");
-      renderComboPanel();
-    }
-    if(isReciteMode){
-      reciteModeBtn.classList.add("active");
-      reciteModeBtn.innerText = "📖 背题模式：开";
-    }
+    if(isReciteMode){ reciteModeBtn.classList.add("active"); reciteModeBtn.innerText = "📖 背题模式：开"; }
 
-    // 恢复列表（保留上次的顺序）
-    buildActiveQuizList(p.activeOrder || null);
+    buildActiveQuizList(true, progress.activeOrder || null);
 
-    // 恢复当前题
-    if(p.currentKey){
-      const idx = activeQuizList.findIndex(q => qKey(q) === p.currentKey);
+    if(progress.currentKey !== null){
+      const idx = activeQuizList.findIndex(q => qKey(q) === progress.currentKey);
       if(idx >= 0) currentIdx = idx;
     }
-    return true;
-  }catch(e){
-    console.error("恢复进度失败", e);
-    return false;
-  }
+  }catch(e){ console.error("恢复进度失败", e); }
 }
 
-function buildActiveQuizList(preferOrder){
+/* 菜单默认收起 */
+menuArea.classList.remove("show");
+menuToggleBtn.classList.remove("active");
+menuToggleBtn.innerText = "菜单 ▼";
+
+menuToggleBtn.addEventListener("click", function(){
+  if(menuArea.classList.contains("show")){
+    menuArea.classList.remove("show");
+    menuToggleBtn.classList.remove("active");
+    menuToggleBtn.innerText = "菜单 ▼";
+  }else{
+    menuArea.classList.add("show");
+    menuToggleBtn.classList.add("active");
+    menuToggleBtn.innerText = "菜单 ▲";
+  }
+});
+
+reciteModeBtn.addEventListener("click", function(){
+  isReciteMode = !isReciteMode;
+  if(isReciteMode){
+    reciteModeBtn.classList.add("active");
+    reciteModeBtn.innerText = "📖 背题模式：开";
+    showToast("已开启背题模式");
+  } else {
+    reciteModeBtn.classList.remove("active");
+    reciteModeBtn.innerText = "📖 背题模式：关";
+    showToast("已关闭背题模式");
+  }
+  renderQuestion();
+  saveProgress();
+});
+
+function buildActiveQuizList(keepIdx = false, preferOrder = null){
   let rawList;
   if(quizMode === "all"){ rawList = [...questionList]; }
-  else { rawList = questionList.filter(q=>{ const rec = answerRecord.find(r=>r.key === qKey(q)); return rec && rec.status === "wrong"; }); }
-
-  if(typeFilter === "single"){ rawList = rawList.filter(q=>isSingleType(q.type)); }
-  else if(typeFilter === "multiple"){ rawList = rawList.filter(q=>isMultiType(q.type)); }
-  else if(typeFilter === "truefalse"){ rawList = rawList.filter(q=>isJudgeType(q.type)); }
-  else if(typeFilter === "short"){ rawList = rawList.filter(q=>isShortType(q.type)); }
-  else if(typeFilter === "practice"){ rawList = rawList.filter(q=>isPracticeType(q.type)); }
-  else if(typeFilter === "single_exception"){ rawList = rawList.filter(q=>isSingleType(q.type) && SINGLE_EXCEPTION_NOS.has(q.no)); }
-  else if(typeFilter === "judge_wrong"){ rawList = rawList.filter(q=>isJudgeType(q.type) && JUDGE_WRONG_NOS.has(q.no)); }
-  else if(typeFilter === "frequent_wrong"){ rawList = rawList.filter(q=>getWrongCount(q.type, q.no) >= 3); }
-  else if(typeFilter === "combo"){ const targetCombo = COMBO_DATA[currentComboIndex]; const comboSet = new Set(targetCombo.nos); rawList = rawList.filter(q=>comboSet.has(q.no)); }
-  else if(typeFilter === "must_multiple"){ rawList = rawList.filter(q=>isMultiType(q.type) && MUST_MULTIPLE_NOS.has(q.no)); }
-  else if(typeFilter === "must_short"){ rawList = rawList.filter(q=>isShortType(q.type) && MUST_SHORT_NOS.has(q.no)); }
-  else if(typeFilter === "must_practice"){ rawList = rawList.filter(q=>isPracticeType(q.type) && MUST_PRACTICE_NOS.has(q.no)); }
-
-  if(preferOrder && preferOrder.length){
-    const map = new Map(rawList.map(q=>[qKey(q), q]));
-    const ordered = [];
-    preferOrder.forEach(k => { if(map.has(k)){ ordered.push(map.get(k)); map.delete(k); } });
-    map.forEach(q => ordered.push(q));
-    activeQuizList = ordered;
-  } else {
-    activeQuizList = shuffleMode ? shuffleArray(rawList) : rawList;
+  else {
+    rawList = questionList.filter(function(q){
+      const key = qKey(q);
+      const rec = answerRecord.find(function(r){ return r.key === key; });
+      return rec && rec.status === "wrong";
+    });
   }
 
-  // 只在初始化/切换时重置到 0，恢复进度时不重置
-  if(!preferOrder) currentIdx = 0;
+  if(typeFilter === "single"){ rawList = rawList.filter(function(q){ return isSingleType(q.type); }); }
+  else if(typeFilter === "multiple"){ rawList = rawList.filter(function(q){ return isMultiType(q.type); }); }
+  else if(typeFilter === "truefalse"){ rawList = rawList.filter(function(q){ return isJudgeType(q.type); }); }
+  else if(typeFilter === "short"){ rawList = rawList.filter(function(q){ return isShortType(q.type); }); }
+  else if(typeFilter === "practice"){ rawList = rawList.filter(function(q){ return isPracticeType(q.type); }); }
+  else if(typeFilter === "single_exception"){ rawList = rawList.filter(function(q){ return isSingleType(q.type) && SINGLE_EXCEPTION_NOS.has(q.no); }); }
+  else if(typeFilter === "judge_wrong"){ rawList = rawList.filter(function(q){ return isJudgeType(q.type) && JUDGE_WRONG_NOS.has(q.no); }); }
+  else if(typeFilter === "frequent_wrong"){ rawList = rawList.filter(function(q){ return getWrongCount(q.type, q.no) >= 3; }); }
+  else if(typeFilter === "combo"){ const targetCombo = COMBO_DATA[currentComboIndex]; const comboSet = new Set(targetCombo.nos); rawList = rawList.filter(function(q){ return comboSet.has(q.no); }); }
+  else if(typeFilter === "must_multiple"){ rawList = rawList.filter(function(q){ return isMultiType(q.type) && MUST_MULTIPLE_NOS.has(q.no); }); }
+  else if(typeFilter === "must_short"){ rawList = rawList.filter(function(q){ return isShortType(q.type) && MUST_SHORT_NOS.has(q.no); }); }
+  else if(typeFilter === "must_practice"){ rawList = rawList.filter(function(q){ return isPracticeType(q.type) && MUST_PRACTICE_NOS.has(q.no); }); }
+
+  if(preferOrder && preferOrder.length){
+    const map = new Map(rawList.map(function(q){ return [qKey(q), q]; }));
+    const ordered = [];
+    preferOrder.forEach(function(key){ if(map.has(key)){ ordered.push(map.get(key)); map.delete(key); } });
+    map.forEach(function(q){ ordered.push(q); });
+    activeQuizList = ordered;
+  } else if(shuffleMode){
+    activeQuizList = shuffleArray(rawList);
+  } else {
+    activeQuizList = rawList;
+  }
+  if(!keepIdx){ currentIdx = 0; }
 }
 
 function buildComboDropdown(){
@@ -7765,19 +7921,15 @@ function buildComboDropdown(){
       typeFilter = "combo";
       document.querySelectorAll(".mode-btn[data-type]").forEach(b=>b.classList.remove("active"));
       comboTabBtn.classList.add("active");
-      comboPanel.classList.add("show");
-      buildActiveQuizList();
-      updateStat();
-      renderQuestion();
       renderComboPanel();
-      saveProgress();
+      comboPanel.style.display = "block";
+      buildActiveQuizList(); updateStat(); renderQuestion(); saveProgress();
     };
     comboDropdown.appendChild(div);
   });
 }
-function openComboDropdown(){ comboTabWrap.classList.add("open"); }
 function closeComboDropdown(){ comboTabWrap.classList.remove("open"); }
-function toggleComboDropdown(){ if(comboTabWrap.classList.contains("open")) closeComboDropdown(); else openComboDropdown(); }
+function toggleComboDropdown(){ if(comboTabWrap.classList.contains("open")) closeComboDropdown(); else comboTabWrap.classList.add("open"); }
 comboTabBtn.onclick = (e)=>{ e.stopPropagation(); toggleComboDropdown(); };
 document.addEventListener("click", (e)=>{ if(!comboTabWrap.contains(e.target)) closeComboDropdown(); });
 
@@ -7789,15 +7941,12 @@ function renderComboPanel(){
   item.nos.forEach(no=>{
     const div = document.createElement("div");
     div.className = "combo-num"; div.innerText = no;
-    const q = questionList.find(x=>x.no === no);
-    if(q){
-      if(isReadOnlyType(q.type)){ if(isShortRead(q.type, no)) div.classList.add("done-right"); }
-      else { const status = getQuestionStatus(q.type, no); if(status === "right") div.classList.add("done-right"); else if(status === "wrong") div.classList.add("done-wrong"); }
-    }
-    div.onclick = ()=>{ const idx = activeQuizList.findIndex(x=>x.no === no); if(idx >= 0){ currentIdx = idx; renderQuestion(); saveProgress(); } else alert("该题不在当前筛选列表中。"); };
+    div.style.cssText = "height:40px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:bold;cursor:pointer;background:#2a374f;color:#c0d4f0;font-size:13px;";
+    div.onclick = ()=>{ const idx = activeQuizList.findIndex(q=>q.no === no); if(idx >= 0){ currentIdx = idx; renderQuestion(); saveProgress(); } else wxAlert("该题不在当前筛选列表中。"); };
     comboNumGrid.appendChild(div);
   });
 }
+comboCloseBtn.addEventListener("click", function(){ comboPanel.style.display = "none"; });
 
 document.querySelectorAll(".mode-btn[data-type]").forEach(btn=>{
   btn.onclick = function(){
@@ -7806,7 +7955,7 @@ document.querySelectorAll(".mode-btn[data-type]").forEach(btn=>{
     comboTabBtn.classList.remove("active");
     this.classList.add("active");
     typeFilter = this.dataset.type;
-    comboPanel.classList.remove("show");
+    comboPanel.style.display = "none";
     buildActiveQuizList(); updateStat(); renderQuestion(); saveProgress();
   };
 });
@@ -7828,62 +7977,26 @@ document.querySelectorAll(".mode-btn[data-shuffle]").forEach(btn=>{
     buildActiveQuizList(); updateStat(); renderQuestion(); saveProgress();
   };
 });
-document.querySelectorAll(".mode-btn[data-randomtype]").forEach(btn=>{
-  btn.onclick = function(){
-    if(isAnswering) return;
-    document.querySelectorAll(".mode-btn[data-randomtype]").forEach(b=>b.classList.remove("active"));
-    document.querySelectorAll(".mode-btn[data-type]").forEach(b=>b.classList.remove("active"));
-    document.querySelectorAll(".mode-btn[data-shuffle]").forEach(b=>b.classList.remove("active"));
-    comboTabBtn.classList.remove("active");
-    comboPanel.classList.remove("show");
-    this.classList.add("active");
-    var rt = this.dataset.randomtype;
-    if(rt === "single"){ typeFilter = "single"; }
-    else if(rt === "multiple"){ typeFilter = "multiple"; }
-    else if(rt === "truefalse"){ typeFilter = "truefalse"; }
-    quizMode = "all";
-    shuffleMode = true;
-    buildActiveQuizList(); updateStat(); renderQuestion(); saveProgress();
-  };
-});
 
-reciteModeBtn.onclick = function(){
-  isReciteMode = !isReciteMode;
-  if(isReciteMode){
-    reciteModeBtn.classList.add("active");
-    reciteModeBtn.innerText = "📖 背题模式：开";
-  } else {
-    reciteModeBtn.classList.remove("active");
-    reciteModeBtn.innerText = "📖 背题模式：关";
-  }
-  renderQuestion();
-  saveProgress();
-};
-
-answerCardHeadDom.onclick = function(){ isExpandCard = !isExpandCard; setCardExpandState(); };
-function setCardExpandState(){
-  if(isExpandCard){ answerCardWrapDom.classList.add("expand"); foldIconDom.innerText = "▲"; }
-  else { answerCardWrapDom.classList.remove("expand"); foldIconDom.innerText = "▼"; }
-}
-
-function renderAnswerCard(){
-  answerGridDom.innerHTML = "";
-  activeQuizList.forEach((item,idx)=>{
+qpanelBtn.addEventListener("click", function(){
+  qpanelAnswerGrid.innerHTML = "";
+  activeQuizList.forEach((item, idx)=>{
     const block = document.createElement("div");
     block.className = "num-block"; block.innerText = item.no;
-    if(isReadOnlyType(item.type)){
-      if(isShortRead(item.type, item.no)) block.classList.add("read");
-      else block.classList.add("unanswered");
+    if (isReadOnlyType(item.type)) {
+      if (isShortRead(item.type, item.no)) block.classList.add("read");
     } else {
       const status = getQuestionStatus(item.type, item.no);
       if(status === "right") block.classList.add("right");
       else if(status === "wrong") block.classList.add("wrong");
-      else block.classList.add("unanswered");
     }
-    block.onclick = ()=>{ if(isAnswering) return; currentIdx = idx; isExpandCard = false; setCardExpandState(); renderQuestion(); saveProgress(); };
-    answerGridDom.appendChild(block);
+    block.onclick = ()=>{ if(isAnswering) return; currentIdx = idx; qpanelMask.classList.remove("show"); renderQuestion(); saveProgress(); };
+    qpanelAnswerGrid.appendChild(block);
   });
-}
+  qpanelMask.classList.add("show");
+});
+qpanelCloseBtn.addEventListener("click", function(){ qpanelMask.classList.remove("show"); });
+qpanelMask.addEventListener("click", function(e){ if(e.target === qpanelMask) qpanelMask.classList.remove("show"); });
 
 function updateStat(){
   const rightNum = answerRecord.filter(r=>r.status==="right").length;
@@ -7897,16 +8010,20 @@ function updateStat(){
   readCntDom.innerText = readNum;
   rateTxtDom.innerText = rate + "%";
   totalCntDom.innerText = activeQuizList.length;
-  renderAnswerCard();
 }
 
 function renderQuestion(){
   quizWrap.innerHTML = "";
+  mobileAnswerToast.className = "mobile-answer-toast";
+  mobileAnswerToast.style.display = "none";
+  setStatus("", false);
+
   const list = activeQuizList;
   if(list.length === 0){
-    let hint = "当前题型暂无题目";
-    if(quizMode === "wrong") hint = "暂无错题，可以先去全部题目刷题";
-    if(typeFilter === "frequent_wrong") hint = "暂无易错题（同一题答错≥3次才会进入）";
+    cqNo.innerText = "暂无题目"; cqType.innerText = "";
+    let hint = "当前筛选下暂无题目";
+    if(quizMode === "wrong") hint = "暂无错题";
+    if(typeFilter === "frequent_wrong") hint = "暂无易错题";
     if(typeFilter === "combo") hint = "当前答案组合下暂无题目";
     if(typeFilter === "short") hint = "暂无简答题";
     if(typeFilter === "practice") hint = "暂无实操题";
@@ -7914,49 +8031,53 @@ function renderQuestion(){
     if(typeFilter === "must_short") hint = "暂无必背简答题";
     if(typeFilter === "must_practice") hint = "暂无必背实操题";
     quizWrap.innerHTML = `<div class="empty-hint">${hint}</div>`;
+    mPrevBtn.disabled = true; mNextBtn.disabled = true; mSubmitBtn.style.display = "none";
     return;
   }
   const item = list[currentIdx];
+  const qStatus = isReciteMode ? "right" : getQuestionStatus(item.type, item.no);
 
-  if(isReadOnlyType(item.type)){
+  let typeText = "【题目】";
+  if(isSingleType(item.type)) typeText = "【单选题】";
+  else if(isMultiType(item.type)) typeText = "【多选题】";
+  else if(isJudgeType(item.type)) typeText = "【判断题】";
+  else if(isShortType(item.type)) typeText = "【简答题】";
+  else if(isPracticeType(item.type)) typeText = "【实操题】";
+
+  cqNo.innerText = "第" + (currentIdx+1) + "题 (no:" + item.no + ")";
+  cqType.innerText = typeText;
+
+  if (isReadOnlyType(item.type)) {
     renderReadOnlyQuestion(item);
   } else {
-    renderChoiceQuestion(item);
+    renderChoiceQuestion(item, qStatus);
   }
+
+  updateMobileBottomBar(item, qStatus);
 }
 
 function renderReadOnlyQuestion(item){
   const isRead = isShortRead(item.type, item.no);
-  let typeText = isShortType(item.type) ? "【简答题】" : "【实操题】";
-
-  let html = `
-  <div class="quiz-card">
-    <div class="q-meta">
-      <div class="q-no">第${currentIdx+1}题 (no:${item.no})</div>
-      <div class="q-type">${typeText}</div>
-    </div>
+  let html = `<div class="quiz-card">
     <div class="question-text">${escapeHtml(item.q)}${isRead ? '<span class="short-read-badge">已读</span>' : ''}</div>
     <div class="option-item" data-idx="0" data-val="A" id="shortShowBtn">${escapeHtml(item.opts[0] || "A.显示参考答案")}</div>
-    <div class="short-answer-box ${isRead || isReciteMode ? 'show' : ''}" id="shortAnswerBox">
+    <div class="short-answer-box" id="shortAnswerBox">
       <div class="ans-label">📖 参考答案</div>
       <div class="short-answer-content">${escapeHtml(item.answer || "（无参考答案）")}</div>
-    </div>
-    <div class="btn-row">
-      <button id="prevBtn" ${currentIdx===0?"disabled":""}>上一题</button>
-      <button id="nextBtn" ${currentIdx >= activeQuizList.length-1 ? "disabled" : ""}>下一题</button>
-      <button id="resetBtn" class="reset-btn">清空全部答题记录</button>
     </div>
   </div>`;
   quizWrap.innerHTML = html;
 
   const btn = document.getElementById("shortShowBtn");
   const box = document.getElementById("shortAnswerBox");
-
-  if(isRead){
+  if (isRead) {
     btn.classList.add("disabled");
+    box.classList.add("show");
     btn.textContent = "✅ 已读（点击收起/展开）";
     btn.style.pointerEvents = "auto";
-    btn.onclick = function(){ box.classList.toggle("show"); };
+    btn.onclick = function(){
+      box.classList.toggle("show");
+    };
   } else {
     btn.onclick = function(){
       box.classList.add("show");
@@ -7966,86 +8087,117 @@ function renderReadOnlyQuestion(item){
       shortReadSet.add(item.type + ":" + item.no);
       saveShortRead();
       updateStat();
+      setTimeout(() => renderReadOnlyQuestion(item), 300);
     };
   }
-  if(isReciteMode && !isRead){
-    shortReadSet.add(item.type + ":" + item.no);
-    saveShortRead();
-    updateStat();
-  }
-
-  document.getElementById("prevBtn").addEventListener("click", ()=>{ if(isAnswering) return; if(currentIdx > 0){ currentIdx--; renderQuestion(); saveProgress(); } });
-  document.getElementById("nextBtn").addEventListener("click", ()=>{ if(isAnswering) return; if(currentIdx < activeQuizList.length-1){ currentIdx++; renderQuestion(); saveProgress(); } });
-  document.getElementById("resetBtn").onclick = resetAll;
 }
 
-function renderChoiceQuestion(item){
-  const qStatus = isReciteMode ? "right" : getQuestionStatus(item.type, item.no);
-
-  let typeText = "【题目】";
-  if(isSingleType(item.type)) typeText = "【单选题】";
-  else if(isMultiType(item.type)) typeText = "【多选题】";
-  else if(isJudgeType(item.type)) typeText = "【判断题】";
-
-  let html = `
-  <div class="quiz-card">
-    <div class="q-meta">
-      <div class="q-no">第${currentIdx+1}题 (no:${item.no})</div>
-      <div class="q-type">${typeText}</div>
-    </div>
-    <div class="question-text">${escapeHtml(item.q)}</div>
-    <div class="opt-container">
-  `;
-
-  item.opts.forEach((optStr,idx)=>{
+function renderChoiceQuestion(item, qStatus){
+  let html = `<div class="quiz-card"><div class="question-text">${escapeHtml(item.q)}</div><div class="opt-container">`;
+  item.opts.forEach((optStr, idx)=>{
     let val; if(isJudgeType(item.type)){ val = optStr; } else { val = optStr[0]; }
     html += `<div class="option-item" data-idx="${idx}" data-val="${escapeHtml(val)}">${escapeHtml(optStr)}</div>`;
   });
-
-  html += `</div><div class="result-tip" id="resultTip"></div><div class="btn-row">`;
-
-  if(isMultiType(item.type) && !qStatus && !isReciteMode){
-    html += `<button id="submitMultiBtn" class="submit-multi-btn">✅提交答案</button><button id="resetOptBtn" class="reset-opt-btn">🔄重置选项</button>`;
-  }
-  const disableNext = (isMultiType(item.type) && !qStatus && !isReciteMode);
-  html += `<button id="prevBtn" ${currentIdx===0?"disabled":""}>上一题</button>
-           <button id="nextBtn" ${disableNext ? "disabled" : (currentIdx >= activeQuizList.length-1 ? "disabled" : "")}>下一题</button>
-           <button id="resetBtn" class="reset-btn">清空全部答题记录</button></div></div>`;
+  html += `</div></div>`;
   quizWrap.innerHTML = html;
 
-  document.querySelectorAll(".option-item").forEach(el=>{ el.addEventListener("click", onOptionClick); });
-  document.getElementById("prevBtn").addEventListener("click", ()=>{ if(isAnswering) return; if(currentIdx > 0){ currentIdx--; renderQuestion(); saveProgress(); } });
-  document.getElementById("nextBtn").addEventListener("click", ()=>{
-    if(isAnswering) return;
-    const qItem = activeQuizList[currentIdx]; const qSt = getQuestionStatus(qItem.type, qItem.no);
-    if(isMultiType(qItem.type) && !qSt && !isReciteMode){ alert("请先提交本题答案"); return; }
-    if(currentIdx < activeQuizList.length-1){ currentIdx++; renderQuestion(); saveProgress(); }
-  });
-  document.getElementById("resetBtn").onclick = resetAll;
-
-  if(isMultiType(item.type) && !qStatus && !isReciteMode){
-    const submitBtn = document.getElementById("submitMultiBtn"); const resetBtn = document.getElementById("resetOptBtn");
-    if(submitBtn) submitBtn.onclick = submitMultiAnswer;
-    if(resetBtn){ resetBtn.onclick = function(){ if(isAnswering) return; document.querySelectorAll(".option-item").forEach(opt=>opt.classList.remove("right")); }; }
-  }
+  const optEls = document.querySelectorAll(".option-item");
+  for(let i=0;i<optEls.length;i++){ optEls[i].addEventListener("click", onOptionClick); }
 
   if(qStatus){
-    const tipDom = document.getElementById("resultTip");
     const allOpts = document.querySelectorAll(".option-item");
-    allOpts.forEach(d=>d.classList.add("disabled"));
-    allOpts.forEach(el=>{ const v = el.dataset.val; if(item.ans.includes(v)) el.classList.add("right"); });
-    if(!isReciteMode){
-      if(qStatus === "right"){ tipDom.className = "result-tip ok"; tipDom.innerText = "✅ 回答正确！"; }
-      else { tipDom.className = "result-tip err"; tipDom.innerText = `❌ 回答错误！正确答案：${item.ans.join("、")}`; }
+    for(let k=0;k<allOpts.length;k++){
+      allOpts[k].classList.add("disabled");
+      if(item.ans.indexOf(allOpts[k].dataset.val) >= 0) allOpts[k].classList.add("right");
     }
+    if(!isReciteMode){ showMobileAnswerToast(qStatus === "right", item.ans); }
   }
+}
+
+function showMobileAnswerToast(isOk, rightAns){
+  if(isOk){ mobileAnswerToast.className = "mobile-answer-toast ok"; mobileAnswerToast.innerText = "✅ 回答正确！"; }
+  else { mobileAnswerToast.className = "mobile-answer-toast err"; mobileAnswerToast.innerText = "❌ 回答错误！正确答案：" + (rightAns ? rightAns.join("、") : ""); }
+  mobileAnswerToast.style.display = "block";
+}
+
+function updateMobileBottomBar(item, qStatus){
+  const list = activeQuizList;
+  mPrevBtn.disabled = (currentIdx === 0);
+  mNextBtn.disabled = (currentIdx >= list.length-1);
+  if(isMultiType(item.type) && !qStatus && !isReciteMode){ mSubmitBtn.style.display = "block"; }
+  else { mSubmitBtn.style.display = "none"; }
+  if(list.length <= 1){ mPrevBtn.disabled = true; mNextBtn.disabled = true; }
+}
+
+mPrevBtn.addEventListener("click", function(){ if(isAnswering) return; goPrevQuestion(); });
+mNextBtn.addEventListener("click", function(){ if(isAnswering) return; goNextQuestion(); });
+mSubmitBtn.addEventListener("click", function(){ if(isAnswering) return; submitMultiAnswer(); });
+
+const mFullscreenBtn = document.getElementById("mFullscreenBtn");
+
+function isFullscreen(){
+  return !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+}
+
+function toggleFullscreen(){
+  const el = document.documentElement;
+  if(!isFullscreen()){
+    const req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+    if(req){
+      req.call(el).catch(function(e){ showToast("全屏失败，可能被浏览器限制"); });
+    }else{
+      showToast("当前浏览器不支持全屏");
+    }
+  }else{
+    const exit = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+    if(exit) exit.call(document);
+  }
+}
+
+mFullscreenBtn.addEventListener("click", toggleFullscreen);
+
+["fullscreenchange","webkitfullscreenchange","mozfullscreenchange","MSFullscreenChange"].forEach(function(ev){
+  document.addEventListener(ev, function(){
+    mFullscreenBtn.innerText = isFullscreen() ? "⛶ 退出" : "⛶ 全屏";
+  });
+});
+
+mClearBtn.addEventListener("click", function(){
+  wxConfirm("确认清空所有答题记录、易错统计和简答/实操已读标记？无法恢复！", function(){
+    answerRecord = []; wrongCountMap = {}; shortReadSet.clear();
+    saveRecord(); saveWrongCount(); saveShortRead();
+    safeSet(PROGRESS_KEY, "");
+    buildActiveQuizList(); updateStat(); renderQuestion();
+    if(typeFilter === "combo") renderComboPanel();
+    showToast("已清空所有记录");
+  });
+});
+
+function goNextQuestion(){
+  const list = activeQuizList;
+  if(list.length === 0) return;
+  const qItem = list[currentIdx]; const qSt = getQuestionStatus(qItem.type, qItem.no);
+  if(isMultiType(qItem.type) && !qSt && !isReciteMode){ showToast("多选题请先点底部「提交」"); return; }
+  if(currentIdx < list.length-1){ 
+    currentIdx++; 
+    renderQuestion(); 
+    quizWrap.scrollTop = 0; 
+    saveProgress(); 
+  }
+  else { showToast("已经是最后一题了"); }
+}
+function goPrevQuestion(){
+  const list = activeQuizList;
+  if(list.length === 0) return;
+  if(currentIdx > 0){ currentIdx--; renderQuestion(); quizWrap.scrollTop = 0; saveProgress(); }
+  else { showToast("已经是第一题了"); }
 }
 
 function onOptionClick(e){
   if(isAnswering) return;
-  if(isReciteMode){ alert("背题模式下不能答题"); return; }
+  if(isReciteMode){ showToast("背题模式下不能答题"); return; }
   const list = activeQuizList; const item = list[currentIdx]; const optEl = e.currentTarget;
-  if(isReadOnlyType(item.type)) return;
+  if (isReadOnlyType(item.type)) return;
   const qStatus = getQuestionStatus(item.type, item.no);
   if(qStatus) return; if(optEl.classList.contains("disabled")) return;
   if(isMultiType(item.type)){ optEl.classList.toggle("right"); return; }
@@ -8059,162 +8211,245 @@ function submitMultiAnswer(){
   if(!isMultiType(item.type)) return;
   let userSelected = [];
   document.querySelectorAll(".option-item").forEach(opt=>{ if(opt.classList.contains("right")) userSelected.push(opt.dataset.val); });
-  if(userSelected.length === 0){ alert("请至少选择一个选项再提交"); return; }
+  if(userSelected.length === 0){ wxAlert("请至少选择一个选项再提交"); return; }
   isAnswering = true; checkAnswer(item, userSelected);
 }
 
 function checkAnswer(qItem, userAns){
-  const tipDom = document.getElementById("resultTip");
   const allOpts = document.querySelectorAll(".option-item");
-  allOpts.forEach(d=>d.classList.add("disabled"));
+  for(let i=0;i<allOpts.length;i++){ allOpts[i].classList.add("disabled"); }
   const rightAnsArr = qItem.ans; let isOk;
   if(isMultiType(qItem.type)){ const a = [...userAns].sort(); const b = [...rightAnsArr].sort(); isOk = (JSON.stringify(a) === JSON.stringify(b)); }
   else if(isJudgeType(qItem.type)){ isOk = (userAns[0] === rightAnsArr[0]); }
   else { isOk = (JSON.stringify(userAns) === JSON.stringify(rightAnsArr)); }
 
-  allOpts.forEach(el=>{ const v = el.dataset.val; if(rightAnsArr.includes(v)) el.classList.add("right"); });
-  if(!isOk){ allOpts.forEach(el=>{ const v = el.dataset.val; if(userAns.includes(v) && !rightAnsArr.includes(v)) el.classList.add("wrong"); }); }
+  for(let k=0;k<allOpts.length;k++){
+    const v = allOpts[k].dataset.val;
+    if(rightAnsArr.indexOf(v) >= 0) allOpts[k].classList.add("right");
+    else if(userAns.indexOf(v) >= 0) allOpts[k].classList.add("wrong");
+  }
 
   const key = qKey(qItem);
-  const existIndex = answerRecord.findIndex(r=>r.key === key);
+  const existIndex = answerRecord.findIndex(r => r.key === key);
   if(existIndex >= 0) answerRecord.splice(existIndex,1);
-  answerRecord.push({key: key, no: qItem.no, type: qItem.type, status: isOk ? "right" : "wrong"});
-  saveRecord();
+  answerRecord.push({key: key, no: qItem.no, type: qItem.type, status: isOk ? "right" : "wrong"}); saveRecord();
   if(!isOk){ wrongCountMap[key] = (wrongCountMap[key] || 0) + 1; } saveWrongCount();
 
-  if(isOk){ tipDom.className = "result-tip ok"; tipDom.innerText = "✅ 回答正确！"; }
-  else { tipDom.className = "result-tip err"; tipDom.innerText = `❌ 回答错误！正确答案：${rightAnsArr.join("、")}`; }
-
+  showMobileAnswerToast(isOk, rightAnsArr);
   updateStat();
   if(typeFilter === "combo") renderComboPanel();
+  
   isAnswering = false;
 }
 
-function resetAll(){
-  if(isAnswering) return;
-  if(confirm("确认清空所有答题记录、易错统计和简答/实操已读标记？无法恢复！")){
-    answerRecord = []; wrongCountMap = {}; shortReadSet.clear();
-    saveRecord(); saveWrongCount(); saveShortRead();
-    buildActiveQuizList(); updateStat(); renderQuestion();
-    if(typeFilter === "combo") renderComboPanel();
-    saveProgress();
+document.getElementById("importBtn").onclick = ()=>{ fileInput.value = ""; fileInput.click(); };
+
+fileInput.addEventListener("change", function(e){
+  const files = e.target.files;
+  if(!files || files.length === 0) return;
+  const fileArr = Array.from(files);
+  let loadedCount = 0;
+  let allData = [];
+  let hasError = false;
+  let errorMsg = "";
+  
+  fileArr.forEach(function(file){
+    const reader = new FileReader();
+    reader.onload = function(ev){
+      try{
+        const data = JSON.parse(ev.target.result);
+        if(!Array.isArray(data)){ hasError = true; errorMsg += file.name + "：顶层必须是数组。\n"; }
+        else {
+          const ok = data.every(q => q && typeof q.no !== "undefined" && typeof q.type === "string" && typeof q.q === "string" && Array.isArray(q.opts) && Array.isArray(q.ans));
+          if(!ok){ hasError = true; errorMsg += file.name + "：题库格式不正确。\n"; }
+          else { allData = allData.concat(data); }
+        }
+      }catch(err){
+        hasError = true;
+        errorMsg += file.name + "：JSON 解析错误（" + err.message + "）。\n";
+      }
+      loadedCount++;
+      if(loadedCount === fileArr.length){ finishImport(); }
+    };
+    reader.readAsText(file, "utf-8");
+  });
+  
+  function finishImport(){
+    if(hasError){ wxAlert("导入失败：\n" + errorMsg); return; }
+    if(allData.length === 0){ wxAlert("没有有效题目。"); return; }
+    showImportChoice(allData);
   }
+});
+
+function showImportChoice(newData){
+  const old = document.getElementById("__wxDialog");
+  if(old) old.parentNode.removeChild(old);
+  const mask = document.createElement("div");
+  mask.id = "__wxDialog";
+  mask.style.cssText = "position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,0.65);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;";
+  const box = document.createElement("div");
+  box.style.cssText = "background:#162034;border:1px solid rgba(0,160,255,0.45);border-radius:14px;padding:20px;max-width:360px;width:100%;color:#e4edf7;font-size:15px;line-height:1.7;box-shadow:0 10px 40px rgba(0,0,0,0.6);";
+  const title = document.createElement("div");
+  title.style.cssText = "font-weight:600;color:#44bdff;margin-bottom:10px;font-size:16px;";
+  title.textContent = "导入题库";
+  box.appendChild(title);
+  const info = document.createElement("div");
+  info.style.cssText = "margin-bottom:16px;white-space:pre-wrap;";
+  info.textContent = "本次导入 " + newData.length + " 题。\n当前题库共 " + questionList.length + " 题。\n\n去重键：类型+题号。\n\n请选择导入方式：";
+  box.appendChild(info);
+  const btnRow = document.createElement("div");
+  btnRow.style.cssText = "display:flex;flex-direction:column;gap:8px;";
+  const appendBtn = document.createElement("button");
+  appendBtn.textContent = "➕ 追加到当前题库";
+  appendBtn.style.cssText = "width:100%;padding:12px;border-radius:8px;border:1px solid #32c97c;background:linear-gradient(135deg,#207b4b,#134b30);color:#fff;font-size:14px;cursor:pointer;";
+  appendBtn.onclick = function(){ if(mask.parentNode) mask.parentNode.removeChild(mask); doAppendImport(newData); };
+  btnRow.appendChild(appendBtn);
+  const replaceBtn = document.createElement("button");
+  replaceBtn.textContent = "🔄 覆盖当前题库";
+  replaceBtn.style.cssText = "width:100%;padding:12px;border-radius:8px;border:1px solid rgba(255,100,100,0.5);background:rgba(140,40,40,0.5);color:#ffcdd1;font-size:14px;cursor:pointer;";
+  replaceBtn.onclick = function(){ if(mask.parentNode) mask.parentNode.removeChild(mask); doReplaceImport(newData); };
+  btnRow.appendChild(replaceBtn);
+  const cancelBtn = document.createElement("button");
+  cancelBtn.textContent = "取消";
+  cancelBtn.style.cssText = "width:100%;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);color:#e4edf7;font-size:14px;cursor:pointer;";
+  cancelBtn.onclick = function(){ if(mask.parentNode) mask.parentNode.removeChild(mask); };
+  btnRow.appendChild(cancelBtn);
+  box.appendChild(btnRow);
+  mask.appendChild(box);
+  document.body.appendChild(mask);
 }
 
-function escapeHtml(s){
-  if(s === null || s === undefined) return "";
-  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+function doAppendImport(newData){
+  const existingKeys = new Set(questionList.map(function(q){ return qKey(q); }));
+  let added = 0;
+  let skipped = 0;
+  newData.forEach(function(q){
+    const key = qKey(q);
+    if(existingKeys.has(key)){
+      skipped++;
+    } else {
+      questionList.push(q);
+      existingKeys.add(key);
+      added++;
+    }
+  });
+  buildActiveQuizList(); updateStat(); renderQuestion();
+  if(typeFilter === "combo") renderComboPanel();
+  saveProgress();
+  wxAlert("追加导入完成。\n新增 " + added + " 题，跳过重复 " + skipped + " 题。\n当前题库共 " + questionList.length + " 题。");
 }
 
-importBtn.onclick = ()=>{ fileInput.value = ""; fileInput.click(); };
-fileInput.onchange = (e)=>{
-  const file = e.target.files[0]; if(!file) return;
-  const reader = new FileReader();
-  reader.onload = (ev)=>{
-    try{
-      const data = JSON.parse(ev.target.result);
-      if(!Array.isArray(data)){ alert("导入失败：JSON 顶层必须是数组。"); return; }
-      const ok = data.every(q => q && typeof q.no !== "undefined" && typeof q.type === "string" && typeof q.q === "string" && Array.isArray(q.opts) && Array.isArray(q.ans));
-      if(!ok){ alert("导入失败：题库格式不正确。"); return; }
-      questionList = data; answerRecord = []; wrongCountMap = {}; shortReadSet.clear();
-      saveRecord(); saveWrongCount(); saveShortRead();
-      localStorage.removeItem(PROGRESS_KEY);
-      buildActiveQuizList(); updateStat(); renderQuestion();
-      if(typeFilter === "combo") renderComboPanel();
-      saveProgress();
-      alert("题库导入成功，共 " + questionList.length + " 题。\n\n如需分享，请点击“保存为自带题库HTML”。");
-    }catch(err){ alert("导入失败：JSON 解析错误。\n" + err.message); }
-  };
-  reader.readAsText(file, "utf-8");
-};
+function doReplaceImport(newData){
+  questionList = newData;
+  answerRecord = []; wrongCountMap = {}; shortReadSet.clear();
+  saveRecord(); saveWrongCount(); saveShortRead();
+  safeSet(PROGRESS_KEY, "");
+  buildActiveQuizList(); updateStat(); renderQuestion();
+  if(typeFilter === "combo") renderComboPanel();
+  wxAlert("覆盖导入完成。\n当前题库共 " + questionList.length + " 题。\n答题记录已清空。");
+}
 
-exportBtn.onclick = ()=>{
+document.getElementById("exportBtn").onclick = ()=>{
   const dataStr = JSON.stringify(questionList, null, 2);
+  if(isWeChat){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(dataStr).then(function(){
+        wxAlert("微信内无法直接下载文件。\n题库 JSON 已复制到剪贴板，可粘贴到备忘录保存。");
+      }).catch(function(){
+        wxAlert("微信内无法直接下载文件。\n请点右上角「···」→「在浏览器打开」后再导出。");
+      });
+    }else{
+      wxAlert("微信内无法直接下载文件。\n请点右上角「···」→「在浏览器打开」后再导出。");
+    }
+    return;
+  }
   const blob = new Blob([dataStr], {type:"application/json;charset=utf-8"});
   const url = URL.createObjectURL(blob); const a = document.createElement("a");
   a.href = url; a.download = "题库导出.json"; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
 };
 
-saveHtmlBtn.onclick = function(){
+/* ===== 保存 HTML：临时隐藏按钮 → 序列化 → 还原 ===== */
+document.getElementById("saveHtmlBtn").onclick = function(){
+  if(isWeChat){ wxAlert("微信内无法直接保存 HTML 文件。\n请点右上角「···」→「在浏览器打开」后再使用此功能。"); return; }
   try{
+    // 1) 临时隐藏导入/导出/保存按钮和 fileInput（在当前 DOM 上操作，序列化时自然带上 display:none）
+    var hideIds = ["importBtn", "exportBtn", "saveHtmlBtn", "fileInput"];
+    var backups = [];
+    hideIds.forEach(function(id){
+      var el = document.getElementById(id);
+      if(el){
+        backups.push({el: el, style: el.getAttribute("style")});
+        el.style.display = "none";
+      }
+    });
+
+    // 2) 替换题库脚本块
     var htmlSource = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
     var jsonStr = JSON.stringify(questionList, null, 2).replace(/<\/script/gi, "<\\/script");
     var newQuestionScript = '<script id="questionDataScript">\nlet questionList = ' + jsonStr + ';\n<\/script>';
     var re = /<script[^>]*id=["']questionDataScript["'][^>]*>[\s\S]*?<\/script>/i;
-    if(!re.test(htmlSource)){ alert("保存失败：未找到题库数据区。"); return; }
+    if(!re.test(htmlSource)){ 
+      backups.forEach(function(b){ if(b.style === null) b.el.removeAttribute("style"); else b.el.setAttribute("style", b.style); });
+      wxAlert("保存失败：未找到题库数据区。"); 
+      return; 
+    }
     var newHtml = htmlSource.replace(re, newQuestionScript);
 
+    // 3) 还原 DOM 上的 style
+    backups.forEach(function(b){ if(b.style === null) b.el.removeAttribute("style"); else b.el.setAttribute("style", b.style); });
+
+    // 4) 给 body 加 data-embedded="true"（CSS 双保险）
+    if(newHtml.indexOf('data-embedded="true"') === -1){
+      newHtml = newHtml.replace(/<body(\s[^>]*)?>/, function(m, attrs){
+        return '<body' + (attrs || '') + ' data-embedded="true">';
+      });
+    }
+
     var blob = new Blob([newHtml], {type:"text/html;charset=utf-8"});
-    var url = URL.createObjectURL(blob); var a = document.createElement("a");
-    a.href = url; a.download = "嘻唰唰电脑版_自带题库.html";
-    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
-    alert("已生成自带题库的 HTML 文件，可直接分享给他人使用。\n共包含 " + questionList.length + " 题。");
-  }catch(err){ alert("保存失败：" + err.message); }
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "嘻唰唰.html";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast("已保存，请查看下载文件");
+  }catch(e){ wxAlert("保存失败：" + e.message); }
 };
 
-var fullscreenBtn = document.getElementById("fullscreenBtn");
-function isFullscreen(){
-  return !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
-}
-function updateFullscreenBtn(){
-  if(isFullscreen()){ fullscreenBtn.innerText = "⛶ 退出"; document.body.classList.add("is-fullscreen"); }
-  else { fullscreenBtn.innerText = "⛶ 全屏"; document.body.classList.remove("is-fullscreen"); }
-}
-function toggleFullscreen(){
-  var el = document.documentElement;
-  if(!isFullscreen()){
-    var req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
-    if(req){ try{ var p = req.call(el); if(p && p.catch){ p.catch(function(){ alert("当前浏览器或环境不支持全屏。"); }); } }catch(e){ alert("当前浏览器或环境不支持全屏。"); } }
-    else{ alert("当前浏览器不支持全屏。"); }
-  }else{
-    var exit = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
-    if(exit){ try{ exit.call(document); }catch(e){} }
-  }
-}
-fullscreenBtn.addEventListener("click", toggleFullscreen);
-["fullscreenchange","webkitfullscreenchange","mozfullscreenchange","MSFullscreenChange"].forEach(function(evt){ document.addEventListener(evt, updateFullscreenBtn); });
-updateFullscreenBtn();
+/* ===== 滑动手势：左滑下一题，右滑上一题 ===== */
+(function bindSwipe(){
+  var startX = 0, startY = 0, startT = 0;
+  var SWIPE_MIN_X = 50;
+  var SWIPE_MAX_Y = 60;
+  var SWIPE_MAX_T = 800;
 
-document.addEventListener("keydown", function(e){
-  if(e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
-  if(e.key === "ArrowLeft"){
-    var btn = document.getElementById("prevBtn");
-    if(btn && !btn.disabled) btn.click();
-  }else if(e.key === "ArrowRight"){
-    var btn = document.getElementById("nextBtn");
-    if(btn && !btn.disabled) btn.click();
-  }else if(e.key === "f" || e.key === "F"){
-    toggleFullscreen();
-  }
-});
+  quizWrap.addEventListener("touchstart", function(e){
+    if(e.touches.length !== 1) return;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    startT = Date.now();
+  }, {passive: true});
 
-let lastWheelTime = 0;
-document.addEventListener("wheel", function(e) {
-  if (!e.target.closest("#quizWrap")) return;
-  const now = Date.now();
-  if (now - lastWheelTime > 300) {
-    lastWheelTime = now;
-    if (e.deltaY > 0) {
-      var nextBtn = document.getElementById("nextBtn");
-      if (nextBtn && !nextBtn.disabled) nextBtn.click();
-    } else if (e.deltaY < 0) {
-      var prevBtn = document.getElementById("prevBtn");
-      if (prevBtn && !prevBtn.disabled) prevBtn.click();
-    }
-  }
-}, { passive: true });
+  quizWrap.addEventListener("touchend", function(e){
+    if(e.changedTouches.length !== 1) return;
+    if(isAnswering) return;
+    var dx = e.changedTouches[0].clientX - startX;
+    var dy = e.changedTouches[0].clientY - startY;
+    var dt = Date.now() - startT;
+    if(dt > SWIPE_MAX_T) return;
+    if(Math.abs(dy) > SWIPE_MAX_Y) return;
+    if(Math.abs(dx) < SWIPE_MIN_X) return;
+    if(dx < 0){ goNextQuestion(); }
+    else { goPrevQuestion(); }
+  }, {passive: true});
+})();
 
-/* ===== 初始化：先恢复进度，再渲染 ===== */
+// 初始化
 buildComboDropdown();
-comboTabLabel.innerText = COMBO_DATA[0].label;
-
-const restored = restoreProgress();
-if(!restored){
-  buildActiveQuizList();
-}
-updateStat();
-renderQuestion();
-saveProgress();
+buildActiveQuizList();
+restoreStat();
 </script>
 
 </body><div id="shadow-root-ai-zhishiku"></div><div id="ai-assist-root-bangs"></div><ai-assistant-floating-host data-ai-fab-host=""></ai-assistant-floating-host><ai-assistant-resource-drop-host data-ai-resource-drop-host=""></ai-assistant-resource-drop-host><div id="content-chat-popup-host" data-ai-assistant-element="content-chat-popup"></div><div id="content-continue-write-host"></div><div id="ai-assist-root-new"></div><div id="ai-assistant"></div></html>
